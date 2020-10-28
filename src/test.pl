@@ -32,11 +32,30 @@ indice(9, I)  :- I=' 9|'.
 indice(10, I) :- I='10|'.
 indice(11, I) :- I='11|'.
 
+alpha(1, A)  :- A='                     '.
+alpha(2, A)  :- A='                   '.
+alpha(3, A)  :- A='                 '.
+alpha(4, A)  :- A='               '.
+alpha(5, A)  :- A='             '.
+alpha(6, A)  :- A='           '.
+alpha(7, A)  :- A='         '.
+alpha(8, A)  :- A='       '.
+alpha(9, A)  :- A='     '.
+alpha(10, A) :- A='   '.
+alpha(11, A) :- A=' '.
 
 
-play :-
-initialBoard(InitialBoard),
-printBoard(initialBoard).
+board(1, B)  :- B='|.|'.
+board(2, B)  :- B='|.| |.|'.
+board(3, B)  :- B='|.| |.| |.|'.
+board(4, B)  :- B='|.| |.| |.| |.|'.
+board(5, B)  :- B='|.| |.| |.| |.| |.|'.
+board(6, B)  :- B='|.| |.| |.| |.| |.| |.|'.
+board(7, B)  :- B='|.| |.| |.| |.| |.| |.| |.|'.
+board(8, B)  :- B='|.| |.| |.| |.| |.| |.| |.| |.|'.
+board(9, B)  :- B='|.| |.| |.| |.| |.| |.| |.| |.| |.|'.
+board(10, B) :- B='|.| |.| |.| |.| |.| |.| |.| |.| |.| |.|'.
+board(11, B) :- B='|.| |.| |.| |.| |.| |.| |.| |.| |.| |.| |.|'.
 
 
 printBoard(X) :-
@@ -50,7 +69,12 @@ printMatrix([], 12).
 
 printMatrix([Head|Tail], N) :-
     indice(N, I),
+    alpha(N, A),
+    board(N, B),
     write(I),
+    write(A),
+    write(B),
+    write(A),
     N1 is N + 1,
     printLine(Head),
     write('|'),
