@@ -1,4 +1,4 @@
-initialBoard([
+initial([
 [board,board,board,board,board,board,board,board,board,board,empty,board,board,board,board,board,board,board,board,board,board],
 [board,board,board,board,board,board,board,board,board,empty,blank,empty,board,board,board,board,board,board,board,board,board],
 [board,board,board,board,board,board,board,board,empty,blank,empty,blank,empty,board,board,board,board,board,board,board,board],
@@ -35,17 +35,21 @@ indice(11, I) :- I='11|'.
 
 
 play :-
-initialBoard(InitialBoard),
-printBoard(InitialBoard).
+initial(GameState),
+display_game(GameState,'Player 1').
 
 
-printBoard(X) :-
+
+display_game(GameState,Player) :-
     nl,
     write('    |A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U| |\n'),
     write('  +---------------------------------------------+\n'),
     write('  |                      _                      |\n'),
-    printMatrix(X, 1),
-    write('  +---------------------------------------------+\n').
+    printMatrix(GameState, 1),
+    write('  +---------------------------------------------+\n'),
+    write('                   '),
+    write(Player),
+    write(' Turn \n').
 printMatrix([], 12).
 
 printMatrix([Head|Tail], N) :-
