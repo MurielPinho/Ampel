@@ -36,7 +36,7 @@ indice(11, I) :- I='11|'.
 
 play :-
 initialBoard(InitialBoard),
-printBoard(initialBoard).
+printBoard(InitialBoard).
 
 
 printBoard(X) :-
@@ -51,9 +51,10 @@ printMatrix([], 12).
 printMatrix([Head|Tail], N) :-
     indice(N, I),
     write(I),
+    write(' '),
     N1 is N + 1,
     printLine(Head),
-    write('|'),
+    write(' |'),
     write('\n  |---------------------------------------------|\n'),
     printMatrix(Tail, N1).
 
@@ -62,5 +63,4 @@ printLine([]).
 printLine([Head|Tail]) :-
     symbol(Head, S),
     write(S),
-    write('|'),
     printLine(Tail).
