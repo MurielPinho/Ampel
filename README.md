@@ -12,6 +12,8 @@
 
 ## Game Description
 
+The rulebook can be found [here](docs/AMPEL_EN.pdf).
+
 Ampel is a board game for two players with the objective of positioning three discs in a line to match the sequence of a traffic light (red-yellow-green, in any direction). Who has made more sequences wins.
 
 The game starts with an empty board (with 66 connected points) and each player selects a color: green or red. Starting with a random player begins the setup phase: players take turns to place a yellow disc in a random place of the board (except edges) until there are 5 yellow discs.
@@ -130,6 +132,8 @@ The GameState is implemented in a list containing 3 lists:
 The visualization works through the **display_game** function, it receives the current gameState and the current player and displays the board accordingly. The function **display_game** starts by printing board related info, then it calls **printMatrix** which receives the Head of gameState that contains the gameBoard, **printMatrix** prints the matrix contents recursively using **printLine** while also formatting for the contents to be displayed correctly and aligned. When **printMatrix** ends, the **printPieces** function is called receiving the Tail of the gameState which containts the gamePieces and displays them, ending the **display_game** function.
 
 ### Main Functions Code
+
+The source code can be found [here](src/ampel.pl).
 
 **display_game**
 ```pl
