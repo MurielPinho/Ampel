@@ -71,6 +71,7 @@ The GameState is implemented in a list containing 3 lists:
     [20,20,10]]).
     ```
     - Console Representation:
+
     ![Initial State](docs/images/initial_state.png)
 
 - **Midgame State**
@@ -96,6 +97,7 @@ The GameState is implemented in a list containing 3 lists:
     [14,15,8]]).
     ```
     - Console Representation:
+
     ![Mid State](docs/images/mid_state.png)
 
 - **Final State**
@@ -121,6 +123,7 @@ The GameState is implemented in a list containing 3 lists:
     [11,15,8]]).
     ```
     - Console Representation:
+
     ![Final State](docs/images/final_state.png)
 
 ### GameState Visualization
