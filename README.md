@@ -19,14 +19,13 @@ The game starts with an empty board (with 66 connected points) and each player s
 After the setup phase is complete, the main game starts. On each turn, players must perform the following steps if possible (in order):
 * Move one of your discs.
 * Move one of your opponent's discs without a cylinder on it.
-* Add one of your discs to an empty point (without directly making a traffic light) and put your cylinder on it, moving it if it's on the board. When out of discs, remove cylinder from the board.
+* Add one of your discs to an empty point (without directly making a traffic light) and put your cylinder on it, moving the cylinder if it's on the board. When out of discs, remove cylinder from the board.
 
 The disc movement must follow these rules:
 * It must move in a straight line along the lines of the connected points.
 * The spaces it must move is equal to the number of discs (counting itself) in the same line.
 * The disc can change direction when moving when encountering an obstacle, being able to go any direction except backwards.
 * If there isn't enough room for the disc to move the number of spaces, the player can't move it.
-If a player makes a traffic light, he keeps the yellow disc and returns the red and green pieces to its player.
 
 If a player makes a traffic light, he keeps the yellow disc and returns the other pieces to its player. The game ends when a player has taken the majority of yellow pieces on the board.
 
