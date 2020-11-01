@@ -12,7 +12,7 @@
 
 ## Game Description
 
-The rulebook can be found [here](docs/AMPEL_EN.pdf).
+The rulebook can be found in the ```docs/``` folder.
 
 Ampel is a board game for two players with the objective of positioning three discs in a line to match the sequence of a traffic light (red-yellow-green, in any direction). Who has made more sequences wins.
 
@@ -133,7 +133,7 @@ The visualization works through the **display_game** function, it receives the c
 
 ### Main Functions Code
 
-The source code can be found [here](src/ampel.pl).
+The source code can be found in the ```src/``` folder.
 
 **display_game**
 ```pl
