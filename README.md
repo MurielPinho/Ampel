@@ -7,9 +7,8 @@
 * **Class:** 5
 * **Students:**
     * André Mamprin Mori - up201700493
-    * Muriel Pinho - up201700132
-
-### Game Description
+    * Muriel Pinho - up201700132 
+### Game Description 
 
 
 
@@ -17,13 +16,13 @@
 
 The GameState is implemented in a list containing 3 lists:
 1. Represents the board in a 26x11 Matrix containing atoms for the following:
-    - **red** represents the *Red* pieces.
-    - **green** represents the *Green* pieces.
-    - **yellow** represents the *Yellow* pieces.
-    - **empty** represents the *Empty* or *Playable* spaces.
+    - **red** represents the *Red* pieces. 
+    - **green** represents the *Green* pieces. 
+    - **yellow** represents the *Yellow* pieces. 
+    - **empty** represents the *Empty* or *Playable* spaces. 
     - **board** and **blank** represent *Unplayable* spaces but they transalate into different things when the board is displayed.
         - **board** translates into 2 spaces.
-        - **blank** translates into 1 space.
+        - **blank** translates into 1 space.  
 
 2. Represents the pieces available to be played for Player 1, formatted as [R,G,Y] with R for *Red* pieces available, G for *Green* pieces available and Y for *Yellow* pieces available.
 3. Represents the pieces available to be played for Player 2, formatted as [R,G,Y] with R for *Red* pieces available, G for *Green* pieces available and Y for *Yellow* pieces available.
@@ -31,10 +30,12 @@ The GameState is implemented in a list containing 3 lists:
 #### GameState Examples
 
 - **Initial State**
-    - Description:
-
+    - Description: 
+        Initial Board with all playable spaces empty and players with default number of pieces of each color.
+        *Player 1* has 20 *Red* pieces, 20 *Green* pieces and 10 *Yellow* pieces.
+        *Player 2* has 20 *Red* pieces, 20 *Green* pieces and 10 *Yellow* pieces.
     - Prolog representation:
-    ```pl
+    ```
     initialState([[
     [board,board,board,board,board,board,board,board,board,board,empty,board,board,board,board,board,board,board,board,board,board],
     [board,board,board,board,board,board,board,board,board,empty,blank,empty,board,board,board,board,board,board,board,board,board],
@@ -51,6 +52,53 @@ The GameState is implemented in a list containing 3 lists:
     [20,20,10]]).
     ```
 
+- **Midgame State**
+    - Description: 
+        Midgame Board with empty spaces and spaces with pieces.
+        *Player 1* has 13 *Red* pieces, 15 *Green* pieces and 7 *Yellow* pieces.
+        *Player 2* has 14 *Red* pieces, 15 *Green* pieces and 8 *Yellow* pieces.
+    - Prolog representation:
+    ```
+    midState([[
+    [board,board,board,board,board,board,board,board,board,board,empty,board,board,board,board,board,board,board,board,board,board],
+    [board,board,board,board,board,board,board,board,board,empty,blank,empty,board,board,board,board,board,board,board,board,board],
+    [board,board,board,board,board,board,board,board,empty,blank,yellow,blank,empty,board,board,board,board,board,board,board,board],
+    [board,board,board,board,board,board,board,empty,blank,empty,blank,empty,blank,empty,board,board,board,board,board,board,board],
+    [board,board,board,board,board,board,red,blank,green,blank,empty,blank,yellow,blank,red,board,board,board,board,board,board],
+    [board,board,board,board,board,empty,blank,empty,blank,red,blank,empty,blank,green,blank,empty,board,board,board,board,board],
+    [board,board,board,board,empty,blank,empty,blank,red,blank,red,blank,yellow,blank,empty,blank,green,board,board,board,board],
+    [board,board,board,empty,blank,green,blank,yellow,blank,empty,blank,empty,blank,empty,blank,green,blank,empty,board,board,board],
+    [board,board,red,blank,empty,blank,empty,blank,empty,blank,red,blank,green,blank,red,blank,red,blank,empty,board,board],
+    [board,empty,blank,yellow,blank,empty,blank,empty,blank,empty,blank,green,blank,empty,blank,red,blank,empty,blank,empty,board],
+    [empty,blank,green,blank,empty,blank,red,blank,green,blank,empty,blank,red,blank,empty,blank,green,blank,red,blank,empty]],
+    [13,15,7],
+    [14,15,8]]).
+    ```
+
+- **Final State**
+    - Description: 
+        Final Board with empty spaces and spaces with pieces.
+        *Player 1* has 11 *Red* pieces, 15 *Green* pieces and 7 *Yellow* pieces.
+        *Player 2* has 11 *Red* pieces, 15 *Green* pieces and 8 *Yellow* pieces.
+    - Prolog representation:
+    ```
+    finalState([[
+    [board,board,board,board,board,board,board,board,board,board,empty,board,board,board,board,board,board,board,board,board,board],
+    [board,board,board,board,board,board,board,board,board,empty,blank,empty,board,board,board,board,board,board,board,board,board],
+    [board,board,board,board,board,board,board,board,empty,blank,yellow,blank,empty,board,board,board,board,board,board,board,board],
+    [board,board,board,board,board,board,board,empty,blank,empty,blank,empty,blank,empty,board,board,board,board,board,board,board],
+    [board,board,board,board,board,board,red,blank,green,blank,empty,blank,empty,blank,red,board,board,board,board,board,board],
+    [board,board,board,board,board,empty,blank,empty,blank,red,blank,empty,blank,empty,blank,empty,board,board,board,board,board],
+    [board,board,board,board,empty,blank,empty,blank,red,blank,red,blank,yellow,blank,empty,blank,green,board,board,board,board],
+    [board,board,board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,green,blank,empty,board,board,board],
+    [board,board,red,blank,empty,blank,empty,blank,empty,blank,red,blank,green,blank,red,blank,red,blank,empty,board,board],
+    [board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,green,blank,empty,blank,red,blank,empty,blank,empty,board],
+    [empty,blank,empty,blank,empty,blank,red,blank,green,blank,empty,blank,red,blank,empty,blank,green,blank,red,blank,empty]],
+    [11,15,7],
+    [11,15,8]]).
+
+    ```
+     
 
 
 ### GameState Visualization
