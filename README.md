@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Ampel
 ===
 
@@ -22,3 +23,5 @@ GameState Visualization
 
 
 
+=======
+>>>>>>> 375f45a32a35875834438fff9d0f3864dae4eab7
