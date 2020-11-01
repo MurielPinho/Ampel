@@ -1,6 +1,6 @@
 # Ampel
 
-### Identification
+## Identification
 
 * **Game:** Ampel
 * **Group:** Ampel_4
@@ -8,11 +8,30 @@
 * **Students:**
     * André Mamprin Mori - up201700493
     * Muriel Pinho - up201700132
-### Game Description
 
 
+## Game Description
 
-### GameState Implementation
+Ampel is a board game for two players with the objective of positioning three discs in a line to match the sequence of a traffic light (red-yellow-green, in any direction). Who has made more sequences wins.
+
+The game starts with an empty board (with 66 connected points) and each player selects a color: green or red. Starting with a random player begins the setup phase: players take turns to place a yellow disc in a random place of the board (except edges) until there are 5 yellow discs.
+
+After the setup phase is complete, the main game starts. On each turn, players must perform the following steps if possible (in order):
+* Move one of your discs.
+* Move one of your opponent's discs without a cylinder on it.
+* Add one of your discs to an empty point (without directly making a traffic light) and put your cylinder on it, moving it if it's on the board. When out of discs, remove cylinder from the board.
+
+The disc movement must follow these rules:
+* It must move in a straight line along the lines of the connected points.
+* The spaces it must move is equal to the number of discs (counting itself) in the same line.
+* The disc can change direction when moving when encountering an obstacle, being able to go any direction except backwards.
+* If there isn't enough room for the disc to move the number of spaces, the player can't move it.
+If a player makes a traffic light, he keeps the yellow disc and returns the red and green pieces to its player.
+
+If a player makes a traffic light, he keeps the yellow disc and returns the other pieces to its player. The game ends when a player has taken the majority of yellow pieces on the board.
+
+
+## GameState Implementation
 
 The GameState is implemented in a list containing 3 lists:
 1. Represents the board in a 26x11 Matrix containing atoms for the following:
@@ -27,7 +46,7 @@ The GameState is implemented in a list containing 3 lists:
 2. Represents the pieces available to be played for Player 1, formatted as [R,G,Y] with R for *Red* pieces available, G for *Green* pieces available and Y for *Yellow* pieces available.
 3. Represents the pieces available to be played for Player 2, formatted as [R,G,Y] with R for *Red* pieces available, G for *Green* pieces available and Y for *Yellow* pieces available.
 
-#### GameState Examples
+### GameState Examples
 
 - **Initial State**
     - Description:
@@ -108,7 +127,7 @@ The GameState is implemented in a list containing 3 lists:
 
 The visualization works through the **display_game** function, it receives the current gameState and the current player and displays the board accordingly. The function **display_game** starts by printing board related info, then it calls **printMatrix** which receives the Head of gameState that contains the gameBoard, **printMatrix** prints the matrix contents recursively using **printLine** while also formatting for the contents to be displayed correctly and aligned. When **printMatrix** ends, the **printPieces** function is called receiving the Tail of the gameState which containts the gamePieces and displays them, ending the **display_game** function.
 
-#### Main Functions Code
+### Main Functions Code
 
 **display_game**
 ```pl
