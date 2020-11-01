@@ -98,10 +98,58 @@ The GameState is implemented in a list containing 3 lists:
     [11,15,8]]).
 
     ```
-     
-
 
 ### GameState Visualization
+
+The visualization works through the **display_game** function, it receives the current gameState and the current player and displays the board accordingly. The function **display_game** starts by printing board related info, then it calls **printMatrix** which receives the Head of gameState that contains the gameBoard, **printMatrix** prints the matrix contents recursively using **printLine** while also formatting for the contents to be displayed correctly and aligned. When **printMatrix** ends, the **printPieces** function is called receiving the Tail of the gameState which containts the gamePieces and displays them, ending the **display_game** function.  
+
+#### Main Functions Code
+
+**display_game**
+```
+display_game([GameBoard|GamePieces],Player) :-
+    nl,
+    write('    |A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|  \n'),
+    write('  +---------------------------------------------+\n'),
+    write('  |  '),
+    write(Player),
+    write(' Turn       _                      |\n'),
+    printMatrix(GameBoard, 1),
+    write('  +---------------------------------------------+\n'),
+    write('     Player 1 Pieces          Player 2 Pieces    \n'),
+    printPieces(GamePieces).
+    printMatrix([], 12).
+
+```
+**printMatrix**
+```
+printMatrix([Head|Tail], N) :-
+    indice(N, I),
+    write(I),
+    write(' '),
+    N1 is N + 1,
+    printLine(Head),
+    write(' |'),
+    write('\n  |---------------------------------------------|\n'),
+    printMatrix(Tail, N1).
+    printLine([]).
+```
+**printLine**
+```
+printLine([Head|Tail]) :-
+    symbol(Head, S),
+    write(S),
+    printLine(Tail).
+```
+
+**printPieces**
+```
+printPieces([Player1,Player2]) :-
+    write('    [R,G,Y]:'),
+    write(Player1),
+    write('       [R,G,Y]:'),
+    write(Player2).
+```
 
 
 
