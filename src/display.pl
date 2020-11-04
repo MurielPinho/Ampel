@@ -9,7 +9,7 @@ initialState([[
 [board,board,board,board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board,board,board,board],
 [board,board,board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board,board,board],
 [board,board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board,board],
-[board,red,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board],
+[board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board],
 [empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty]],[0,0],[20,20,10],[20,20,10]]).
 
 
@@ -102,16 +102,3 @@ getValueBoard(GameBoard,Value) :-
     manageRow(Row),
     getValueFromMatrix(GameBoard,Row,Col,Value).
 
-
-validateValue('green', Value, _GameBoard) :-
-    Value = 'green'.
-
-validateValue('red', Value, _GameBoard) :-
-    Value = 'red'.
-
-validateValue('yellow', Value, _GameBoard) :-
-    Value = 'yellow'.
-    
-validateValue(_NewValue, Value, GameBoard) :-
-    write('ERROR: This space doesnt contain a piece!\n'),
-    selectPiece(GameBoard,Value).

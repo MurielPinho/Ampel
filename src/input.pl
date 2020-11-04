@@ -121,3 +121,16 @@ validateRow(_Row, NewRow) :-
     readRow(Input),
     validateRow(Input, NewRow).
 
+
+validateValue('green', Value, _GameBoard) :-
+    Value = 'green'.
+
+validateValue('red', Value, _GameBoard) :-
+    Value = 'red'.
+
+validateValue('yellow', Value, _GameBoard) :-
+    Value = 'yellow'.
+    
+validateValue(_NewValue, Value, GameBoard) :-
+    write('ERROR: This space doesnt contain a piece!\n'),
+    selectPiece(GameBoard,Value).
