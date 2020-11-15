@@ -130,7 +130,14 @@ validateValue('red', Value, _GameBoard) :-
 
 validateValue('yellow', Value, _GameBoard) :-
     Value = 'yellow'.
-    
+
 validateValue(_NewValue, Value, GameBoard) :-
     write('ERROR: This space doesnt contain a piece!\n'),
     selectPiece(GameBoard,Value).
+
+validateTile('empty', Tile, _GameBoard) :-
+    Tile = 'empty'.
+
+validateTile(_NewTile, Tile, GameBoard) :-
+    write('ERROR: This space is not an empty tile!\n'),
+    selectTile(GameBoard,Tile).

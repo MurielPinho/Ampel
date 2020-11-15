@@ -1,6 +1,7 @@
 :- consult('display.pl').
-:- consult('utilities.pl').
 :- consult('input.pl').
+:- consult('logic.pl').
+:- consult('utilities.pl').
 
-p :-
-    play.
+play :-
+    initialize.

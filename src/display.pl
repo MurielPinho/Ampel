@@ -36,18 +36,12 @@ indice(10, I) :- I='10| '.
 indice(11, I) :- I='11| '.
 
 
-/*Initial functions*/
-play :-
-    initialState(GameState),
-    display_game(GameState,'Player 1').
-
 
 /*Displays the game, including the score, board and pieces*/
-display_game([GameBoard,GameScore|GameInfo],Player) :-
+displayGame([GameBoard,GameScore|GameInfo],Player) :-
     printHeader(GameScore,Player),
     printMatrix(GameBoard, 1),
-    printFooter(GameInfo),
-    selectPiece(GameBoard,Value).
+    printFooter(GameInfo).
 printMatrix([], 12).
 
 
@@ -91,14 +85,4 @@ printFooter([Player1,Player2]) :-
     write(Player2),
     write('\t|\n'),
     write('  +---------------------------------------------+\n').
-    
-selectPiece(GameBoard,Value) :-
-    getValueBoard(GameBoard,NewValue),
-    validateValue(NewValue,Value,GameBoard).
-
-
-getValueBoard(GameBoard,Value) :-
-    manageColumn(Col),
-    manageRow(Row),
-    getValueFromMatrix(GameBoard,Row,Col,Value).
 

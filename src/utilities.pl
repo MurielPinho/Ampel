@@ -1,4 +1,8 @@
+getGameBoard([H | _T], GameBoard) :-
+        GameBoard = H.
+
 replaceInList([_H|T], 0, Value, [Value|T]).
+
 replaceInList([H|T], Index, Value, [H|TNew]) :-
         Index > 0,
         Index1 is Index - 1,
