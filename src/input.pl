@@ -121,7 +121,7 @@ validateRow(_Row, NewRow) :-
     readRow(Input),
     validateRow(Input, NewRow).
 
-
+ /* Check if selection is a piece */
 validateValue('green', Value, _GameBoard) :-
     Value = 'green'.
 
@@ -135,6 +135,7 @@ validateValue(_NewValue, Value, GameBoard) :-
     write('ERROR: This space doesnt contain a piece!\n'),
     selectPiece(GameBoard,Value).
 
+ /* Check if selection is an empty tile */
 validateTile('empty', Tile, _GameBoard) :-
     Tile = 'empty'.
 

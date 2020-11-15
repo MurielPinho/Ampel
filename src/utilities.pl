@@ -1,6 +1,8 @@
 getGameBoard([H | _T], GameBoard) :-
         GameBoard = H.
 
+setGameBoard([_H | T], GameBoard, [GameBoard|T]).
+
 replaceInList([_H|T], 0, Value, [Value|T]).
 
 replaceInList([H|T], Index, Value, [H|TNew]) :-
