@@ -1,11 +1,14 @@
+%%%%%%%%%%%%%%%%%%
+% Initialization %
+%%%%%%%%%%%%%%%%%%
+
 /*Initial logic to add yellow pieces*/
 initialize(NewGameState) :-
     % Initialize board
     initialState(GameState),
 
     % Start setting yellow pieces on the board
-    setYellowPiece(GameState, NewGameState, 4),
-    displayGame(NewGameState,'Player 2').
+    setYellowPiece(GameState, NewGameState, 4).
 
 
 /* Loop to add N yellow pieces to the board */
