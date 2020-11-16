@@ -67,8 +67,9 @@ printHeader(GameScore,Player):-
     write('  +---------------------------------------------+\n'),
     write('  | |A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U| |\n'),
     write('  |---------------------------------------------|\n'),
-    write('  |\tTurn: '),
-    write(Player),
+    write('  |\tTurn: Player '),
+    PlayerNum is Player + 1,
+    write(PlayerNum),
     write('\t _   Score[P1,P2]:'),
     write(GameScore),
     write('\t|\n').
