@@ -8,7 +8,7 @@ initialize(NewGameState) :-
     initialState(GameState),
 
     % Start setting yellow pieces on the board
-    setYellowPiece(GameState, NewGameState, 4).
+    setYellowPiece(GameState, NewGameState, 5).
 
 
 /* Loop to add N yellow pieces to the board */
@@ -38,17 +38,33 @@ setYellowPiece(GameState, NewGameState, N) :-
     setYellowPiece(NextGameState, NewGameState, N1).
 
 
-/* AUX FUNCTIONS */
-selectPiece(GameBoard, Value, Row, Col) :-
-    getValueBoard(GameBoard, NewValue, Row, Col),
-    validateValue(NewValue, Value, GameBoard).
+
+%%%%%%%%%%%%%%%%%%
+% Initialization %
+%%%%%%%%%%%%%%%%%%
+
+/* Main Loop */
+loop(GameState) :-
+    write('Main Loop').
 
 
+
+
+%%%%%%%%%%%%%%%%%
+% Aux Functions %
+%%%%%%%%%%%%%%%%%
+
+/* Get user input to select a tile */
 selectTile(GameBoard, Tile, Row, Col) :-
     getValueBoard(GameBoard, NewTiles, Row, Col),
     validateTile(NewTiles, Value, GameBoard).
 
+/* Get user input to select a piece */
+selectPiece(GameBoard, Value, Row, Col) :-
+    getValueBoard(GameBoard, NewValue, Row, Col),
+    validateValue(NewValue, Value, GameBoard).
 
+/* Get current value on postion [Row, Col] at the board */
 getValueBoard(GameBoard,Value, Row, Col) :-
     manageColumn(Col),
     manageRow(Row),

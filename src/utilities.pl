@@ -1,8 +1,12 @@
+/* Get the gameboard of the current state */
 getGameBoard([H | _T], GameBoard) :-
         GameBoard = H.
 
+/* Set the gameboard of the current state */
 setGameBoard([_H | T], GameBoard, [GameBoard|T]).
 
+
+/* Replace a value in the position [Row,Col] at the board*/
 replaceInList([_H|T], 0, Value, [Value|T]).
 
 replaceInList([H|T], Index, Value, [H|TNew]) :-
@@ -18,6 +22,8 @@ replaceInMatrix([H|T], Row, Column, Value, [H|TNew]) :-
         Row1 is Row - 1,
         replaceInMatrix(T, Row1, Column, Value, TNew).
 
+
+/* Get a value from the position [Row,Col] at the board*/
 getValueFromList([H|_T], 0, Value) :-
         Value = H.
 
