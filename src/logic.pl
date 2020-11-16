@@ -4,17 +4,25 @@ initialize(NewGameState) :-
     initialState(GameState),
 
     % Start setting yellow pieces on the board
-    setYellowPiece(GameState, NewGameState, 2),
+    setYellowPiece(GameState, NewGameState, 4),
     displayGame(NewGameState,'Player 2').
 
 
+/* Loop to add N yellow pieces to the board */
 setYellowPiece(GameState, NewGameState, 0) :-
     NewGameState = GameState.
 
 setYellowPiece(GameState, NewGameState, N) :-
     N > 0,
     N1 is N - 1,
-    displayGame(GameState, 'Player 1'),
+    X is mod(N, 2),
+    (
+    0 is mod(N, 2) -> % if(0 == N % 2)
+    displayGame(GameState, 'Player 1')
+    ; % else
+    displayGame(GameState, 'Player 2')
+    ),
+    nl,
     getGameBoard(GameState, GameBoard),
 
     % Player chooses tile to put yellow piece
@@ -24,7 +32,6 @@ setYellowPiece(GameState, NewGameState, N) :-
 
     % Update GameState
     setGameBoard(GameState, NewGameBoard, NextGameState),
-    printMatrix(GameBoard, 1),
     setYellowPiece(NextGameState, NewGameState, N1).
 
 
