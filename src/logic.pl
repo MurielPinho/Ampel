@@ -19,10 +19,11 @@ initialize(NewGameState, Player) :-
 
 /* Loop to add N yellow pieces to the board */
 setYellowPiece(GameState, _Player, NewGameState, 0) :-
-    % NextPlayer is mod(Player + 1, 2),
+    clear,
     NewGameState = GameState.
 
 setYellowPiece(GameState, Player, NewGameState, N) :-
+    clear,
     N > 0,
     N1 is N - 1,
 
@@ -32,6 +33,7 @@ setYellowPiece(GameState, Player, NewGameState, N) :-
     % Player chooses tile to put yellow piece
     displayGame(GameState, Player),
     getGameBoard(GameState, GameBoard),
+    write('  Select empty tile to place a yellow piece:'), nl,
     selectTile(GameBoard, Tile, Row, Col), % TODO check if tile is not on the edge
     replaceInMatrix(GameBoard, Row, Col, 'yellow', NewGameBoard),
 

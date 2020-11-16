@@ -39,3 +39,7 @@ getValueFromMatrix([_H|T], Row, Column, Value) :-
         Row > 0,
         Row1 is Row - 1,
         getValueFromMatrix(T, Row1, Column, Value).
+
+/* Clear the screen to display less information */
+clear :-
+        write('\33\[2J').
