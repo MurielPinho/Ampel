@@ -9,8 +9,7 @@ initialize(NewGameState) :-
 
 
 setYellowPiece(GameState, NewGameState, 0) :-
-    NewGameState = GameState,
-    write('HEY').
+    NewGameState = GameState.
 
 setYellowPiece(GameState, NewGameState, N) :-
     N > 0,
