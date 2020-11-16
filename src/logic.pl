@@ -5,7 +5,7 @@
 /*Initial logic to add yellow pieces*/
 initialize(NewGameState, Player) :-
     % Number of yellow pieces to be placed
-    N = 5,
+    N = 1,
     InitialPlayer = 0,
 
     % Initialize board
@@ -45,16 +45,37 @@ setYellowPiece(GameState, Player, NewGameState, N) :-
 
 
 
-%%%%%%%%%%%%%%%%%%
-% Initialization %
-%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%
+% Main Game %
+%%%%%%%%%%%%%
 
 /* Main Loop */
 gameLoop(GameState, Player) :-
-    displayGame(GameState, Player),
+    setPiece(GameState, Player, NewGameState, 0),
     write('Start main game loop').
 
 
+/* Place pieces */
+setPiece(GameState, Player, NewGameState, Done) :-
+    Done < 1,
+
+    % NextPlayer is mod(Player + 1, 2),
+    NextPlayer is mod(Player + 1, 2),
+
+    % Get info from current state/player
+    getPlayerColor(Player, Color),
+    getGameBoard(GameState, GameBoard),
+
+    % Player selects open tile to place his piece
+    displayGame(GameState, Player),
+    selectTile(GameBoard, Tile, Row, Col),
+    replaceInMatrix(GameBoard, Row, Col, Color, NewGameBoard),
+
+    % Update GameState
+    setGameBoard(GameState, NewGameBoard, NextGameState),
+    % TODO update player pieces
+
+    setPiece(NextGameState, NextPlayer, NewGameState, Done).
 
 
 %%%%%%%%%%%%%%%%%
@@ -63,8 +84,8 @@ gameLoop(GameState, Player) :-
 
 /* Get user input to select a tile */
 selectTile(GameBoard, Tile, Row, Col) :-
-    getValueBoard(GameBoard, NewTiles, Row, Col),
-    validateTile(NewTiles, Value, GameBoard).
+    getValueBoard(GameBoard, NewTile, Row, Col),
+    validateTile(NewTile, Tile, GameBoard).
 
 /* Get user input to select a piece */
 selectPiece(GameBoard, Value, Row, Col) :-
@@ -76,3 +97,11 @@ getValueBoard(GameBoard,Value, Row, Col) :-
     manageColumn(Col),
     manageRow(Row),
     getValueFromMatrix(GameBoard,Row,Col,Value).
+
+/* Get color of player */
+getPlayerColor(Player, Color) :-
+    (
+        Player =:= 0 ->
+        Color = 'green' ; % Player 1 is green
+        Color = 'red'     % Player 2 is red
+    ).
