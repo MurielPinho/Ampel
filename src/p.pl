@@ -4,4 +4,4 @@
 :- consult('utilities.pl').
 
 play :-
-    initialize.
+    initialize(NewGameState).
