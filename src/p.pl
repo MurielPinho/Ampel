@@ -4,5 +4,8 @@
 :- consult('utilities.pl').
 
 play :-
-    initialize(NewGameState),
-    displayGame(NewGameState, 'Player2').
+    % Initialize game by setting yellow pieces
+    initialize(GameState, Player),
+
+    % Start main game loop
+    gameLoop(GameState, Player).
