@@ -50,32 +50,38 @@ setYellowPiece(GameState, Player, NewGameState, N) :-
 %%%%%%%%%%%%%
 
 /* Main Loop */
-gameLoop(GameState, Player) :-
-    setPiece(GameState, Player, NewGameState, 0),
-    write('Start main game loop').
-
-
-/* Place pieces */
-setPiece(GameState, Player, NewGameState, Done) :-
+gameLoop(GameState, Player, NewGameState, Done) :-
     Done < 1,
 
     % NextPlayer is mod(Player + 1, 2),
     NextPlayer is mod(Player + 1, 2),
+
+    % Display the game
+    clear,
+    displayGame(GameState, Player),
+
+    % Player chooses to place a piece
+    setPiece(GameState, Player, NextGameState),
+    write('Start main game loop'),
+    gameLoop(NextGameState, NextPlayer, NewGameState, 0).
+
+
+/* Place pieces */
+setPiece(GameState, Player, NextGameState) :-
 
     % Get info from current state/player
     getPlayerColor(Player, Color),
     getGameBoard(GameState, GameBoard),
 
     % Player selects open tile to place his piece
-    displayGame(GameState, Player),
+    write('  Select tile to place your piece:'), nl,
     selectTile(GameBoard, Tile, Row, Col),
     replaceInMatrix(GameBoard, Row, Col, Color, NewGameBoard),
 
     % Update GameState
-    setGameBoard(GameState, NewGameBoard, NextGameState),
     % TODO update player pieces
+    setGameBoard(GameState, NewGameBoard, NextGameState).
 
-    setPiece(NextGameState, NextPlayer, NewGameState, Done).
 
 
 %%%%%%%%%%%%%%%%%

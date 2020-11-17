@@ -8,4 +8,5 @@ play :-
     initialize(GameState, Player),
 
     % Start main game loop
-    gameLoop(GameState, Player).
+    Done = 0,
+    gameLoop(GameState, Player, NewGameState, Done).
