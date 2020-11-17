@@ -34,7 +34,7 @@ placeYellowPiece(GameState, Player, NewGameState, N) :-
     displayGame(GameState, Player),
     getGameBoard(GameState, GameBoard),
     write('  Select empty tile to place a yellow piece:'), nl,
-    selectTile(GameBoard, Tile, Row, Col), % TODO check if tile is not on the edge
+    selectTile(GameBoard, Row, Col), % TODO check if tile is not on the edge
     replaceInMatrix(GameBoard, Row, Col, 'yellow', NewGameBoard),
 
     % Update GameState
@@ -85,7 +85,7 @@ placePlayerPiece(GameState, Player, NextGameState) :-
 
     % Player selects open tile to place his piece
     write('  Select tile to place your piece:'), nl,
-    selectTile(GameBoard, Tile, Row, Col),
+    selectTile(GameBoard, Row, Col),
     replaceInMatrix(GameBoard, Row, Col, Color, NewGameBoard),
 
     % Update GameState
@@ -107,22 +107,8 @@ movePlayerPiece(GameState, Player, NextGameState) :-
 
     % Player selects open tile to place his piece
     nl, write('  Select tile to place your piece:'), nl,
-    selectTile(NewGameBoard, Tile, NewRow, NewCol),
+    selectTile(NewGameBoard, NewRow, NewCol),
     replaceInMatrix(NewGameBoard, NewRow, NewCol, Color, FinalGameBoard),
 
     % Update GameState
     setGameBoard(GameState, FinalGameBoard, NextGameState).
-
-
-%%%%%%%%%%%%%%%%%
-% Aux Functions %
-%%%%%%%%%%%%%%%%%
-
-/* Get user input to select a tile */
-selectTile(GameBoard, Tile, Row, Col) :-
-    getValueBoard(GameBoard, NewTile, Row, Col),
-    validateTile(NewTile, Tile, GameBoard).
-
-/* Get user input to select a piece */
-selectPiece(GameBoard, Color, Row, Col) :-
-    getUserPiece(GameBoard, Color, Row, Col).

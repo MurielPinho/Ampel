@@ -121,27 +121,20 @@ validateRow(_Row, NewRow) :-
     readRow(Input),
     validateRow(Input, NewRow).
 
- /* Check if selection is a piece */
-validateValue('green', Value, _GameBoard) :-
-    Value = 'green'.
+/* Get user's selected empty tile */
+selectTile(GameBoard, ValidRow, ValidCol) :-
+    % Get user's selection
+    getValueBoard(GameBoard, Value, SelectedRow, SelectedCol),
 
-validateValue('red', Value, _GameBoard) :-
-    Value = 'red'.
-
-validateValue('yellow', Value, _GameBoard) :-
-    Value = 'yellow'.
-
-validateValue(_NewValue, Value, GameBoard) :-
-    write('ERROR: This space doesnt contain a piece!\n'),
-    selectPiece(GameBoard,Value).
-
- /* Check if selection is an empty tile */
-validateTile('empty', Tile, _GameBoard) :-
-    Tile = 'empty'.
-
-validateTile(_NewTile, Tile, GameBoard) :-
-    write('ERROR: This space is not an empty tile!\n'),
-    selectTile(GameBoard,Tile).
+    % Validate selection
+    (
+        Value == 'empty' ->
+            ValidRow = SelectedRow,
+            ValidCol =  SelectedCol
+            ;
+            write('  ERROR: This option is not valid!'), nl,
+            selectTile(GameBoard, ValidRow, ValidCol)
+    ).
 
 
 %%%%%%%%%%%%%
@@ -169,7 +162,7 @@ validateOption(_Option, ValidOption) :-
     getUserOption(ValidOption).
 
 /* Select a player's piece */
-getUserPiece(GameBoard, Color, ValidRow, ValidCol) :-
+selectPiece(GameBoard, Color, ValidRow, ValidCol) :-
     % Get user's selection
     getValueBoard(GameBoard, Value, SelectedRow, SelectedCol),
 
@@ -180,5 +173,5 @@ getUserPiece(GameBoard, Color, ValidRow, ValidCol) :-
             ValidCol =  SelectedCol
             ;
             write('  ERROR: This option is not valid!'), nl,
-            getUserPiece(GameBoard, Color, ValidRow, ValidCol)
+            selectPiece(GameBoard, Color, ValidRow, ValidCol)
     ).
