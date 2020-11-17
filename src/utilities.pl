@@ -2,8 +2,23 @@
 getGameBoard([H | _T], GameBoard) :-
         GameBoard = H.
 
+/* Get color of player */
+getPlayerColor(Player, Color) :-
+    (
+        Player =:= 0 ->
+            Color = 'green' % Player 1 is green
+            ;
+            Color = 'red'     % Player 2 is red
+    ).
+
 /* Set the gameboard of the current state */
 setGameBoard([_H | T], GameBoard, [GameBoard|T]).
+
+/* Get current value on postion [Row, Col] at the board */
+getValueBoard(GameBoard,Value, Row, Col) :-
+    manageColumn(Col),
+    manageRow(Row),
+    getValueFromMatrix(GameBoard,Row,Col,Value).
 
 
 /* Replace a value in the position [Row,Col] at the board*/

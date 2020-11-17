@@ -168,3 +168,17 @@ validateOption(_Option, ValidOption) :-
     write('  ERROR: This option is not valid!'), nl,
     getUserOption(ValidOption).
 
+/* Select a player's piece */
+getUserPiece(GameBoard, Color, ValidRow, ValidCol) :-
+    % Get user's selection
+    getValueBoard(GameBoard, Value, SelectedRow, SelectedCol),
+
+    % Validate selection
+    (
+        Color == Value ->
+            ValidRow = SelectedRow,
+            ValidCol =  SelectedCol
+            ;
+            write('  ERROR: This option is not valid!'), nl,
+            getUserPiece(GameBoard, Color, ValidRow, ValidCol)
+    ).

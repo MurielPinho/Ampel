@@ -69,9 +69,7 @@ gameLoop(GameState, Player, NewGameState, Done) :-
             placePlayerPiece(GameState, Player, NextGameState)
         ;
             % Player chooses to move a piece
-            % TODO movePiece funtion
-            write('!!!! NOT YET IMPLEMENTED !!!!'), nl,
-            NextGameState = GameState
+            movePlayerPiece(GameState, Player, NextGameState)
     ),
 
     % Next round
@@ -95,6 +93,26 @@ placePlayerPiece(GameState, Player, NextGameState) :-
     setGameBoard(GameState, NewGameBoard, NextGameState).
 
 
+/* Move piece */
+movePlayerPiece(GameState, Player, NextGameState) :-
+
+    % Get info from current state/player
+    getPlayerColor(Player, Color),
+    getGameBoard(GameState, GameBoard),
+
+    % Player selects open tile to place his piece
+    write('  Select one of your pieces:'), nl,
+    selectPiece(GameBoard, Color, CurrentRow, CurrentCol),
+    replaceInMatrix(GameBoard, CurrentRow, CurrentCol, 'empty', NewGameBoard),
+
+    % Player selects open tile to place his piece
+    nl, write('  Select tile to place your piece:'), nl,
+    selectTile(NewGameBoard, Tile, NewRow, NewCol),
+    replaceInMatrix(NewGameBoard, NewRow, NewCol, Color, FinalGameBoard),
+
+    % Update GameState
+    setGameBoard(GameState, FinalGameBoard, NextGameState).
+
 
 %%%%%%%%%%%%%%%%%
 % Aux Functions %
@@ -106,20 +124,5 @@ selectTile(GameBoard, Tile, Row, Col) :-
     validateTile(NewTile, Tile, GameBoard).
 
 /* Get user input to select a piece */
-selectPiece(GameBoard, Value, Row, Col) :-
-    getValueBoard(GameBoard, NewValue, Row, Col),
-    validateValue(NewValue, Value, GameBoard).
-
-/* Get current value on postion [Row, Col] at the board */
-getValueBoard(GameBoard,Value, Row, Col) :-
-    manageColumn(Col),
-    manageRow(Row),
-    getValueFromMatrix(GameBoard,Row,Col,Value).
-
-/* Get color of player */
-getPlayerColor(Player, Color) :-
-    (
-        Player =:= 0 ->
-        Color = 'green' ; % Player 1 is green
-        Color = 'red'     % Player 2 is red
-    ).
+selectPiece(GameBoard, Color, Row, Col) :-
+    getUserPiece(GameBoard, Color, Row, Col).
