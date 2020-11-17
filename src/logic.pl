@@ -11,18 +11,18 @@ initialize(NewGameState, Player) :-
     % Initialize board
     initialState(GameState),
 
-    % Start setting yellow pieces on the board
-    setYellowPiece(GameState, InitialPlayer, NewGameState, N),
+    % Start placing yellow pieces on the board
+    placeYellowPiece(GameState, InitialPlayer, NewGameState, N),
 
     % Next player will be mod(N, 2)
     Player is mod(N, 2).
 
 /* Loop to add N yellow pieces to the board */
-setYellowPiece(GameState, _Player, NewGameState, 0) :-
+placeYellowPiece(GameState, _Player, NewGameState, 0) :-
     clear,
     NewGameState = GameState.
 
-setYellowPiece(GameState, Player, NewGameState, N) :-
+placeYellowPiece(GameState, Player, NewGameState, N) :-
     clear,
     N > 0,
     N1 is N - 1,
@@ -41,7 +41,7 @@ setYellowPiece(GameState, Player, NewGameState, N) :-
     setGameBoard(GameState, NewGameBoard, NextGameState),
 
     % Next player is the (current player + 1) mod 2
-    setYellowPiece(NextGameState, NextPlayer, NewGameState, N1).
+    placeYellowPiece(NextGameState, NextPlayer, NewGameState, N1).
 
 
 
@@ -66,7 +66,7 @@ gameLoop(GameState, Player, NewGameState, Done) :-
     (
         1 is Input ->
             % Player chooses to place a piece
-            setPiece(GameState, Player, NextGameState)
+            placePlayerPiece(GameState, Player, NextGameState)
         ;
             % Player chooses to move a piece
             % TODO movePiece funtion
@@ -78,8 +78,8 @@ gameLoop(GameState, Player, NewGameState, Done) :-
     gameLoop(NextGameState, NextPlayer, NewGameState, Done).
 
 
-/* Place pieces */
-setPiece(GameState, Player, NextGameState) :-
+/* Place piece */
+placePlayerPiece(GameState, Player, NextGameState) :-
 
     % Get info from current state/player
     getPlayerColor(Player, Color),
