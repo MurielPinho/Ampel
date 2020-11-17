@@ -63,11 +63,19 @@ gameLoop(GameState, Player, NewGameState, Done) :-
     % Get user's play option
     getUserOption(Input),
 
+    (
+        1 is Input ->
+            % Player chooses to place a piece
+            setPiece(GameState, Player, NextGameState)
+        ;
+            % Player chooses to move a piece
+            % TODO movePiece funtion
+            write('!!!! NOT YET IMPLEMENTED !!!!'), nl,
+            NextGameState = GameState
+    ),
 
-    % Player chooses to place a piece
-    setPiece(GameState, Player, NextGameState),
-    write('Start main game loop'),
-    gameLoop(NextGameState, NextPlayer, NewGameState, 0).
+    % Next round
+    gameLoop(NextGameState, NextPlayer, NewGameState, Done).
 
 
 /* Place pieces */
