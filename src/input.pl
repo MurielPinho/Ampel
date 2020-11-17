@@ -142,3 +142,29 @@ validateTile('empty', Tile, _GameBoard) :-
 validateTile(_NewTile, Tile, GameBoard) :-
     write('ERROR: This space is not an empty tile!\n'),
     selectTile(GameBoard,Tile).
+
+
+%%%%%%%%%%%%%
+% Main Game %
+%%%%%%%%%%%%%
+
+/* Get user input for his play option (place/move piece) */
+getUserOption(ValidOption) :-
+    write('  Choose your option:'), nl,
+    write('    1) Place Piece'), nl,
+    write('    2) Move Piece'), nl,
+    write('  Option '),
+    read(Option), nl,
+    validateOption(Option, ValidOption).
+
+/* Check if user input is valid*/
+validateOption(1, ValidOption) :-
+    ValidOption = 1.
+
+validateOption(2, ValidOption) :-
+    ValidOption = 2.
+
+validateOption(_Option, ValidOption) :-
+    write('  ERROR: This option is not valid!'), nl,
+    getUserOption(ValidOption).
+

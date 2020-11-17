@@ -60,6 +60,10 @@ gameLoop(GameState, Player, NewGameState, Done) :-
     clear,
     displayGame(GameState, Player),
 
+    % Get user's play option
+    getUserOption(Input),
+
+
     % Player chooses to place a piece
     setPiece(GameState, Player, NextGameState),
     write('Start main game loop'),
