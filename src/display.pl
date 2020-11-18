@@ -10,7 +10,7 @@ initialState([[
 [board,board,board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board,board,board],
 [board,board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board,board],
 [board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board],
-[empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty]],[0,0],[20,20,10],[20,20,10]]).
+[empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty]],[0,0],[green,20],[red,20]]).
 
 
 /*Returns the symbol to be displayed on board*/
@@ -80,10 +80,20 @@ printFooter([Player1,Player2]) :-
     write('  | |A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U| |\n'),
     write('  |---------------------------------------------|\n'),
     write('  |  Player 1 Pieces          Player 2 Pieces\t|\n'),
-    write('  | [R,G,Y]:'),
-    write(Player1),
-    write('\t     [R,G,Y]:'),
-    write(Player2),
-    write('\t|\n'),
+
+    playerPieces(Player1, Player1Color, Player1Pieces),
+    playerPieces(Player2, Player2Color, Player2Pieces),
+    symbol(Player1Color, S1),
+    symbol(Player2Color, S2),
+
+    write('  |  '),
+    write(S1),
+    write(':   '),
+    write(Player1Pieces),
+    write('\t     \t      '),
+    write(S2),
+    write(':   '),
+    write(Player2Pieces),
+    write('\t\t|\n'),
     write('  +---------------------------------------------+\n').
 

@@ -2,14 +2,12 @@
 getGameBoard([H | _T], GameBoard) :-
         GameBoard = H.
 
-/* Get color of player */
-getPlayerColor(Player, Color) :-
-    (
-        Player =:= 0 ->
-            Color = 'green' % Player 1 is green
-            ;
-            Color = 'red'     % Player 2 is red
-    ).
+/* Get player's pieces info */
+playerPieces([Color, Pieces], Color, Pieces).
+getPlayerInfo([_GameBoard, _Score, Player1, _Player2], 0, Color, Pieces) :-
+        playerPieces(Player1, Color, Pieces).
+getPlayerInfo([_GameBoard, _Score, _Player1, Player2], 1, Color, Pieces) :-
+        playerPieces(Player2, Color, Pieces).
 
 /* Set the gameboard of the current state */
 setGameBoard([_H | T], GameBoard, [GameBoard|T]).

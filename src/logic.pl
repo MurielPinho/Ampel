@@ -80,7 +80,7 @@ gameLoop(GameState, Player, NewGameState, Done) :-
 placePlayerPiece(GameState, Player, NextGameState) :-
 
     % Get info from current state/player
-    getPlayerColor(Player, Color),
+    getPlayerInfo(GameState, Player, Color, Pieces),
     getGameBoard(GameState, GameBoard),
 
     % Player selects open tile to place his piece
@@ -97,7 +97,7 @@ placePlayerPiece(GameState, Player, NextGameState) :-
 movePlayerPiece(GameState, Player, NextGameState) :-
 
     % Get info from current state/player
-    getPlayerColor(Player, Color),
+    getPlayerInfo(GameState, Player, Color, Pieces),
     getGameBoard(GameState, GameBoard),
 
     % Player selects open tile to place his piece
