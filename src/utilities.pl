@@ -9,6 +9,11 @@ getPlayerInfo([_GameBoard, _Score, Player1, _Player2], 0, Color, Pieces) :-
 getPlayerInfo([_GameBoard, _Score, _Player1, Player2], 1, Color, Pieces) :-
         playerPieces(Player2, Color, Pieces).
 
+/* Set new updated player pieces [state, player, newpieces, newstate]*/
+setPlayerPieces(GameState, Player, NewPieces, NewState) :-
+        Index is Player + 2,
+        replaceInList(GameState, Index, NewPieces, NewState).
+
 /* Set the gameboard of the current state */
 setGameBoard([_H | T], GameBoard, [GameBoard|T]).
 

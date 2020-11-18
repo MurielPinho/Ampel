@@ -89,8 +89,9 @@ placePlayerPiece(GameState, Player, NextGameState) :-
     replaceInMatrix(GameBoard, Row, Col, Color, NewGameBoard),
 
     % Update GameState
-    % TODO update player pieces
-    setGameBoard(GameState, NewGameBoard, NextGameState).
+    NewPieces is Pieces - 1,
+    setPlayerPieces(GameState, Player, [Color, NewPieces], NextGameState1),
+    setGameBoard(NextGameState1, NewGameBoard, NextGameState).
 
 
 /* Move piece */
