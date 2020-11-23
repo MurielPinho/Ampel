@@ -16,10 +16,11 @@ initialState([[
 /*Returns the symbol to be displayed on board*/
 symbol(blank,S) :- S=' '.
 symbol(board,S) :- S='  '.
-symbol(empty,S) :- S='|.|'.
-symbol(yellow,S) :- S='|Y|'.
-symbol(green,S) :- S='|G|'.
-symbol(red,S) :- S='|R|'.
+symbol(empty,S) :- atom_codes(S, [0x2502, 0x002E, 0x2502]).
+symbol(yellow,S) :- atom_codes(S, [0x2502, 0x0059, 0x2502]).
+symbol(green,S) :- atom_codes(S, [0x2502, 0x0047, 0x2502]).
+symbol(red,S) :- atom_codes(S, [0x2502, 0x0052, 0x2502]).
+
 
 
 /*Returns the number indicator on the left of the board*/
@@ -77,16 +78,32 @@ printHeader(GameScore,Player):-
 
 /*Prints the Board footer that contains the player pieces*/
 printFooter([Player1,Player2]) :-
-    write('  | |A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U| |\n'),
-    write('  |---------------------------------------------|\n'),
-    write('  |  Player 1 Pieces          Player 2 Pieces\t|\n'),
+    % Define unicode chars
+    atom_codes(VerticalBorder, [0x2503]),
+
+    write('  '),
+    write(VerticalBorder),
+    write(' |A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U| '),
+    write(VerticalBorder), nl,
+
+    write('  '),
+    write(VerticalBorder),
+    write('---------------------------------------------'),
+    write(VerticalBorder), nl,
+
+    write('  '),
+    write(VerticalBorder),
+    write('  Player 1 Pieces          Player 2 Pieces\t'),
+    write(VerticalBorder), nl,
+
 
     playerPieces(Player1, Player1Color, Player1Pieces),
     playerPieces(Player2, Player2Color, Player2Pieces),
     symbol(Player1Color, S1),
     symbol(Player2Color, S2),
-
-    write('  |  '),
+    write('  '),
+    write(VerticalBorder),
+    write('  '),
     write(S1),
     write(':   '),
     write(Player1Pieces),
@@ -94,6 +111,9 @@ printFooter([Player1,Player2]) :-
     write(S2),
     write(':   '),
     write(Player2Pieces),
-    write('\t\t|\n'),
+    write('\t\t'),
+    write(VerticalBorder),
+    write('\n'),
+
     write('  +---------------------------------------------+\n').
 
