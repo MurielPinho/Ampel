@@ -136,6 +136,33 @@ selectTile(GameBoard, ValidRow, ValidCol) :-
             selectTile(GameBoard, ValidRow, ValidCol)
     ).
 
+/* Get user's selected empty tile */
+selectInitialTile(GameBoard, ValidRow, ValidCol) :-
+    % Get user's selection
+    getValueBoard(GameBoard, Value, SelectedRow, SelectedCol),
+
+    % Validate selection
+    verifyNotOnEdge(SelectedRow, SelectedCol, Valid),
+    (
+        (Value == 'empty', Valid == 1) ->
+            ValidRow = SelectedRow,
+            ValidCol =  SelectedCol
+            ;
+            write('  ERROR: This option is not valid!'), nl,
+            selectInitialTile(GameBoard, ValidRow, ValidCol)
+    ).
+
+
+/* Check if the empty tile is on the edge of the board*/
+verifyNotOnEdge(SelectedRow, SelectedCol, Valid) :-
+    LeftEdge is 10 - SelectedRow,
+    RightEdge is 20 - LeftEdge,
+    (
+        (LeftEdge == SelectedCol ; SelectedCol == RightEdge ; SelectedRow == 10) ->
+            Valid = 0
+            ;
+            Valid = 1
+    ).
 
 %%%%%%%%%%%%%
 % Main Game %

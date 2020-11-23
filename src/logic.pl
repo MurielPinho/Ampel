@@ -5,7 +5,7 @@
 /*Initial logic to add yellow pieces*/
 initialize(NewGameState, Player) :-
     % Number of yellow pieces to be placed
-    N = 1,
+    N = 3,
     InitialPlayer = 0,
 
     % Initialize board
@@ -33,8 +33,8 @@ placeYellowPiece(GameState, Player, NewGameState, N) :-
     % Player chooses tile to put yellow piece
     displayGame(GameState, Player),
     getGameBoard(GameState, GameBoard),
-    write('  Select empty tile to place a yellow piece:'), nl,
-    selectTile(GameBoard, Row, Col), % TODO check if tile is not on the edge
+    write('  Select empty tile (not on the edge) to place a yellow piece:'), nl,
+    selectInitialTile(GameBoard, Row, Col),
     replaceInMatrix(GameBoard, Row, Col, 'yellow', NewGameBoard),
 
     % Update GameState
