@@ -17,12 +17,21 @@ setPlayerPieces(GameState, Player, NewPieces, NewState) :-
 /* Set the gameboard of the current state */
 setGameBoard([_H | T], GameBoard, [GameBoard|T]).
 
-/* Get current value on postion [Row, Col] at the board */
+/* Get current value on postion [Row, Col] at the board */      
 getValueBoard(GameBoard,Value, Row, Col) :-
     manageColumn(TempCol),
     manageRow(TempRow),
-    convertPyramid(TempRow,TempCol,Row,Col),
-    getValueFromMatrix(GameBoard,Row,Col,Value).
+    % Validate selection
+    verifyNotBoard(TempRow, TempCol, IsBoard),
+    (
+        IsBoard == 0 ->
+            convertPyramid(TempRow,TempCol,Row,Col),
+            getValueFromMatrix(GameBoard,Row,Col,Value)
+            ;
+            write('  ERROR: This option is not valid!'), nl,
+            getValueBoard(GameBoard,Value, Row, Col)
+    ).
+    
 
 
 /* Replace a value in the position [Row,Col] at the board*/

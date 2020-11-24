@@ -35,7 +35,6 @@ placeYellowPiece(GameState, Player, NewGameState, N) :-
     getGameBoard(GameState, GameBoard),
     write('  Select empty tile (not on the edge) to place a yellow piece:'), nl,
     selectInitialTile(GameBoard, Row, Col),
-    write(' '), write(Col),write(' '), write(Row),write(' '),
     replaceInMatrix(GameBoard, Row, Col, 'yellow', NewGameBoard),
 
     % Update GameState
@@ -99,7 +98,7 @@ placePlayerPiece(GameState, Player, NextGameState) :-
 movePlayerPiece(GameState, Player, NextGameState) :-
 
     % Get info from current state/player
-    getPlayerInfo(GameState, Player, Color, Pieces),
+    getPlayerInfo(GameState, Player, Color, _Pieces),
     getGameBoard(GameState, GameBoard),
 
     % Player selects open tile to place his piece
