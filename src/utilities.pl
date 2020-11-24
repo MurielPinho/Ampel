@@ -21,7 +21,9 @@ setGameBoard([_H | T], GameBoard, [GameBoard|T]).
 getValueBoard(GameBoard,Value, Row, Col) :-
     manageColumn(Col),
     manageRow(Row),
-    getValueFromMatrix(GameBoard,Row,Col,Value).
+    convertPyramid(Row,Col,NewRow,NewCol),
+    getValueFromMatrix(GameBoard,NewRow,NewCol,Value),
+    write(' '), write(Col),write(' '), write(Row),write(' '), write(NewCol),write(' '), write(NewRow),write(' '), write(Value),write(' ').
 
 
 /* Replace a value in the position [Row,Col] at the board*/
@@ -61,3 +63,9 @@ getValueFromMatrix([_H|T], Row, Column, Value) :-
 /* Clear the screen to display less information */
 clear :-
         write('\33\[2J').
+
+convertPyramid(Row,Col,NewRow,NewCol) :-
+        NewRow is Row,
+        Temp1 is 11 - Row - 1,
+        Temp2 is Col -  Temp1, nl,
+        NewCol is Temp2 // 2.
