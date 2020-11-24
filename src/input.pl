@@ -164,15 +164,14 @@ verifyNotOnEdge(SelectedRow, SelectedCol, Valid) :-
     ).
 
 verifyNotBoard(SRow, SCol, IsBoard) :-
-      
+    ( 
         ColParity is SCol mod 2,
         RowParity is SRow mod 2,
         ( RowParity == ColParity  ) ->
             IsBoard = 0
             ;
             IsBoard = 1
-    .
-
+    ).
 
 %%%%%%%%%%%%%
 % Main Game %
