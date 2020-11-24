@@ -1,21 +1,21 @@
-/*Declaration of a initial gamestate reconsult('p.pl'). */
-initialState([[
-[board,board,board,board,board,board,board,board,board,board,empty,board,board,board,board,board,board,board,board,board,board],
-[board,board,board,board,board,board,board,board,board,empty,blank,empty,board,board,board,board,board,board,board,board,board],
-[board,board,board,board,board,board,board,board,empty,blank,empty,blank,empty,board,board,board,board,board,board,board,board],
-[board,board,board,board,board,board,board,empty,blank,empty,blank,empty,blank,empty,board,board,board,board,board,board,board],
-[board,board,board,board,board,board,empty,blank,empty,blank,empty,blank,empty,blank,empty,board,board,board,board,board,board],
-[board,board,board,board,board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board,board,board,board,board],
-[board,board,board,board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board,board,board,board],
-[board,board,board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board,board,board],
-[board,board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board,board],
-[board,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,board],
-[empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty,blank,empty]],[0,0],[green,20],[red,20]]).
+/*Declaration of a initial gamestate reconsult('p.pl'). 
+*/
 
+initialState([[
+[empty,blank,blank,blank,blank,blank,blank,blank,blank,blank,blank],
+[empty,empty,blank,blank,blank,blank,blank,blank,blank,blank,blank],
+[empty,empty,empty,blank,blank,blank,blank,blank,blank,blank,blank],
+[empty,empty,empty,empty,blank,blank,blank,blank,blank,blank,blank],
+[empty,empty,empty,empty,empty,blank,blank,blank,blank,blank,blank],
+[empty,empty,empty,empty,empty,empty,blank,blank,blank,blank,blank],
+[empty,empty,empty,empty,empty,empty,empty,blank,blank,blank,blank],
+[empty,empty,empty,empty,empty,empty,empty,empty,blank,blank,blank],
+[empty,empty,empty,empty,empty,empty,empty,empty,empty,blank,blank],
+[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,blank],
+[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty]],[0,0],[green,20],[red,20]]).
 
 /*Returns the symbol to be displayed on board */
-symbol(blank,S) :- atom_codes(S, [0x2573]).
-symbol(board,S) :- atom_codes(S, [0x0020,0x0020]).
+symbol(blank,S) :- atom_codes(S, [0x0020]).
 symbol(empty,S) :- atom_codes(S, [0x2502, 0x002E, 0x2502]).
 symbol(yellow,S) :- atom_codes(S, [0x2502, 0x0059, 0x2502]).
 symbol(green,S) :- atom_codes(S, [0x2502, 0x0047, 0x2502]).
@@ -24,16 +24,16 @@ symbol(red,S) :- atom_codes(S, [0x2502, 0x0052, 0x2502]).
 
 
 /*Returns the number indicator on the left of the board*/
-indice(1, I)  :- atom_codes(I, [0x0020, 0x0031,0x2503,0x0020]).
-indice(2, I)  :- atom_codes(I, [0x0020, 0x0032,0x2503,0x0020]).
-indice(3, I)  :- atom_codes(I, [0x0020, 0x0033,0x2503,0x0020]).
-indice(4, I)  :- atom_codes(I, [0x0020, 0x0034,0x2503,0x0020]).
-indice(5, I)  :- atom_codes(I, [0x0020, 0x0035,0x2503,0x0020]).
-indice(6, I)  :- atom_codes(I, [0x0020, 0x0036,0x2503,0x0020]).
-indice(7, I)  :- atom_codes(I, [0x0020, 0x0037,0x2503,0x0020]).
-indice(8, I)  :- atom_codes(I, [0x0020, 0x0038,0x2503,0x0020]).
-indice(9, I)  :- atom_codes(I, [0x0020, 0x0039,0x2503,0x0020]).
-indice(10, I) :- atom_codes(I, [0x0031, 0x0030,0x2503,0x0020]).
+indice(1, I)  :- atom_codes(I, [0x0020, 0x0031,0x2503,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020]).
+indice(2, I)  :- atom_codes(I, [0x0020, 0x0032,0x2503,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020]).
+indice(3, I)  :- atom_codes(I, [0x0020, 0x0033,0x2503,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020]).
+indice(4, I)  :- atom_codes(I, [0x0020, 0x0034,0x2503,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020]).
+indice(5, I)  :- atom_codes(I, [0x0020, 0x0035,0x2503,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020]).
+indice(6, I)  :- atom_codes(I, [0x0020, 0x0036,0x2503,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020]).
+indice(7, I)  :- atom_codes(I, [0x0020, 0x0037,0x2503,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020]).
+indice(8, I)  :- atom_codes(I, [0x0020, 0x0038,0x2503,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020]).
+indice(9, I)  :- atom_codes(I, [0x0020, 0x0039,0x2503,0x0020,0x0020,0x0020,0x0020,0x0020]).
+indice(10, I) :- atom_codes(I, [0x0031, 0x0030,0x2503,0x0020,0x0020,0x0020]).
 indice(11, I) :- atom_codes(I, [0x0031, 0x0031,0x2503,0x0020]).
 
 border('v',Border) :- atom_codes(Border, [0x2503]).
@@ -75,7 +75,7 @@ printMatrix([Head|Tail], N) :-
     write(I),
     N1 is N + 1,
     printLine(Head),
-    write(' '),write(VerticalBorder),nl,
+    write(VerticalBorder),nl,
     write(HorizontalBorder),
     nl,
     printMatrix(Tail, N1).
@@ -85,6 +85,7 @@ printLine([]).
 printLine([Head|Tail]) :-
     symbol(Head, S),
     write(S),
+    write(' '),
     printLine(Tail).
 
 /*Prints the header from the board, with current player and score. */
