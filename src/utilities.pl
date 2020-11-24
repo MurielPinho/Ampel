@@ -19,11 +19,10 @@ setGameBoard([_H | T], GameBoard, [GameBoard|T]).
 
 /* Get current value on postion [Row, Col] at the board */
 getValueBoard(GameBoard,Value, Row, Col) :-
-    manageColumn(Col),
-    manageRow(Row),
-    convertPyramid(Row,Col,NewRow,NewCol),
-    getValueFromMatrix(GameBoard,NewRow,NewCol,Value),
-    write(' '), write(Col),write(' '), write(Row),write(' '), write(NewCol),write(' '), write(NewRow),write(' '), write(Value),write(' ').
+    manageColumn(TempCol),
+    manageRow(TempRow),
+    convertPyramid(TempRow,TempCol,Row,Col),
+    getValueFromMatrix(GameBoard,Row,Col,Value).
 
 
 /* Replace a value in the position [Row,Col] at the board*/
@@ -64,8 +63,8 @@ getValueFromMatrix([_H|T], Row, Column, Value) :-
 clear :-
         write('\33\[2J').
 
-convertPyramid(Row,Col,NewRow,NewCol) :-
-        NewRow is Row,
-        Temp1 is 11 - Row - 1,
-        Temp2 is Col -  Temp1, nl,
-        NewCol is Temp2 // 2.
+convertPyramid(TempRow,TempCol,Row,Col) :-
+        Row is TempRow,
+        Temp1 is 11 - TempRow - 1,
+        Temp2 is TempCol -  Temp1, nl,
+        Col is Temp2 // 2.
