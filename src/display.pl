@@ -1,10 +1,11 @@
-/* reconsult('p.pl'). 
+/* reconsult('p.pl'). play.
 */
 
 
 /*Displays the game, including the score, board and pieces*/
 displayGame([GameBoard,GameScore|GameInfo],Player) :-
-    printHeader(GameScore,Player),
+    piecesDiagL(GameBoard,0,0,N), write(N),nl,
+    printHeader(GameScore,Player), 
     printMatrix(GameBoard, 1),
     printFooter(GameInfo).
 printMatrix([], 12).

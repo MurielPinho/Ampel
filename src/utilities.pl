@@ -77,3 +77,91 @@ convertPyramid(TempRow,TempCol,Row,Col) :-
         Temp1 is 11 - TempRow - 1,
         Temp2 is TempCol -  Temp1, nl,
         Col is Temp2 // 2.
+
+piecesHor(GameBoard,Row,Col,NPieces) :-
+        Row =< 10,
+        Col =< 10,
+        NextC is Col + 1,
+       
+        
+        piecesHor(GameBoard,Row,NextC,TmpPieces),
+        (
+                (getValueFromMatrix(GameBoard,Row,Col,'red');getValueFromMatrix(GameBoard,Row,Col,'green');getValueFromMatrix(GameBoard,Row,Col,'yellow')),
+                NPieces is TmpPieces + 1
+                ;
+                NPieces is TmpPieces
+        ).
+
+piecesHor(_,_,_,0).
+
+
+piecesDiagR(GameBoard,Row,Col,NPieces) :-
+        Row =< 10,
+        Col =< 10,
+        NextR is Row + 1,
+        NextC is Col + 1,
+        
+        piecesDiagR(GameBoard,NextR,NextC,TmpPieces),
+        (
+                (getValueFromMatrix(GameBoard,Row,Col,'red');getValueFromMatrix(GameBoard,Row,Col,'green');getValueFromMatrix(GameBoard,Row,Col,'yellow')),
+                NPieces is TmpPieces + 1
+                ;
+                NPieces is TmpPieces
+        ).
+
+piecesDiagR(_,_,_,0).
+
+piecesDiagL(GameBoard,Row,Col,NPieces) :-
+        Row =< 10,
+        Col =< 10,
+        NextR is Row + 1,
+        
+        
+        piecesDiagL(GameBoard,NextR,Col,TmpPieces),
+        (
+                (getValueFromMatrix(GameBoard,Row,Col,'red');getValueFromMatrix(GameBoard,Row,Col,'green');getValueFromMatrix(GameBoard,Row,Col,'yellow')),
+                NPieces is TmpPieces + 1
+                ;
+                NPieces is TmpPieces
+        ).
+
+piecesDiagL(_,_,_,0).
+
+
+
+nPieces(GameBoard,Row,Col,'NE',NPieces) :-
+        NewRow is Row - Col,
+        NewCol is 0,
+        write(NewRow),write(NewCol),nl,
+        piecesDiagL(GameBoard,NewRow,NewCol,NPieces).
+
+nPieces(GameBoard,Row,Col,'NW',NPieces) :-
+        NewRow is Row - Col,
+        NewCol is 0,
+        write(NewRow),write(NewCol),nl,
+        piecesDiagR(GameBoard,NewRow,NewCol,NPieces).
+
+nPieces(GameBoard,Row,Col,'SE',NPieces) :-
+        NewRow is 0,
+        NewCol is Col,
+        write(NewRow),write(NewCol),nl,
+        piecesDiagR(GameBoard,NewRow,NewCol,NPieces).
+
+nPieces(GameBoard,Row,Col,'SW',NPieces) :-
+        NewRow is Row - Col,
+        NewCol is 0,
+        write(NewRow),write(NewCol),nl,
+        piecesDiagL(GameBoard,NewRow,NewCol,NPieces).
+
+nPieces(GameBoard,Row,Col,'E',NPieces) :-
+        NewRow is Row,
+        NewCol is 0,
+        piecesHor(GameBoard,NewRow,NewCol,NPieces).
+
+nPieces(GameBoard,Row,Col,'W',NPieces) :-
+        NewRow is Row,
+        NewCol is 0,
+        piecesHor(GameBoard,NewRow,NewCol,NPieces).
+
+nPieces(GameBoard,Row,Col,_,NPieces) :-
+        NPieces = 0.
