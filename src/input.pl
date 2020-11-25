@@ -146,7 +146,7 @@ selectInitialTile(GameBoard, ValidRow, ValidCol) :-
     (
         (Value == 'empty', Valid == 1) ->
             ValidRow = SelectedRow,
-            ValidCol =  SelectedCol           
+            ValidCol =  SelectedCol
             ;
             write('  ERROR: This option is not valid!'), nl,
             selectInitialTile(GameBoard, ValidRow, ValidCol)
@@ -156,7 +156,7 @@ selectInitialTile(GameBoard, ValidRow, ValidCol) :-
 /* Check if the empty tile is on the edge of the board*/
 verifyNotOnEdge(SelectedRow, SelectedCol, Valid) :-
     (
-        
+
         ( SelectedCol == 0 ; SelectedCol == SelectedRow ; SelectedRow == 10) ->
             Valid = 0
             ;
@@ -164,7 +164,7 @@ verifyNotOnEdge(SelectedRow, SelectedCol, Valid) :-
     ).
 
 verifyNotBoard(SRow, SCol, IsBoard) :-
-    ( 
+    (
         ColParity is SCol mod 2,
         RowParity is SRow mod 2,
         ( RowParity == ColParity  ) ->
@@ -211,3 +211,30 @@ selectPiece(GameBoard, Color, ValidRow, ValidCol) :-
             write('  ERROR: This option is not valid!'), nl,
             selectPiece(GameBoard, Color, ValidRow, ValidCol)
     ).
+
+/* Select direction for piece to move */
+selectMoveOption(Direction) :-
+    write('  1) NW    2) NE'),nl,
+    write('  3) W     4) E'),nl,
+    write('  5) SW    6) SE'),nl,
+    write('  > Option '), read(UserOption),
+    (
+        (UserOption < 1 ; UserOption > 6) ->
+            write('  Invalid option. Try again.'),nl,
+            selectMoveOption(Direction)
+            ;
+            getDirection(UserOption, Direction)
+    ).
+
+getDirection(1, Direction) :-
+    Direction = 'NW'.
+getDirection(2, Direction) :-
+    Direction = 'NE'.
+getDirection(3, Direction) :-
+    Direction = 'W'.
+getDirection(4, Direction) :-
+    Direction = 'E'.
+getDirection(5, Direction) :-
+    Direction = 'SW'.
+getDirection(6, Direction) :-
+    Direction = 'SE'.

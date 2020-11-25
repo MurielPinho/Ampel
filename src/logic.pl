@@ -5,7 +5,7 @@
 /*Initial logic to add yellow pieces*/
 initialize(NewGameState, Player) :-
     % Number of yellow pieces to be placed
-    N = 3,
+    N = 0,
     InitialPlayer = 0,
 
     % Initialize board
@@ -101,14 +101,14 @@ movePlayerPiece(GameState, Player, NextGameState) :-
     getPlayerInfo(GameState, Player, Color, _Pieces),
     getGameBoard(GameState, GameBoard),
 
-    % Player selects open tile to place his piece
+    % Player selects his piece
     write('  Select one of your pieces:'), nl,
     selectPiece(GameBoard, Color, CurrentRow, CurrentCol),
     replaceInMatrix(GameBoard, CurrentRow, CurrentCol, 'empty', NewGameBoard),
 
     % Player selects open tile to place his piece
-    nl, write('  Select tile to place your piece:'), nl,
-    selectTile(NewGameBoard, NewRow, NewCol),
+    nl, write('  Select a direction to move:'), nl,
+    selectMoveOption(Direction),
     replaceInMatrix(NewGameBoard, NewRow, NewCol, Color, FinalGameBoard),
 
     % Update GameState
