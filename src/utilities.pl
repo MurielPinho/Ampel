@@ -17,7 +17,7 @@ setPlayerPieces(GameState, Player, NewPieces, NewState) :-
 /* Set the gameboard of the current state */
 setGameBoard([_H | T], GameBoard, [GameBoard|T]).
 
-/* Get current value on postion [Row, Col] at the board */      
+/* Get current value on postion [Row, Col] at the board */
 getValueBoard(GameBoard,Value, Row, Col) :-
     manageColumn(TempCol),
     manageRow(TempRow),
@@ -31,7 +31,7 @@ getValueBoard(GameBoard,Value, Row, Col) :-
             write('  ERROR: This option is not valid!'), nl,
             getValueBoard(GameBoard,Value, Row, Col)
     ).
-    
+
 
 
 /* Replace a value in the position [Row,Col] at the board*/
@@ -82,8 +82,8 @@ piecesHor(GameBoard,Row,Col,NPieces) :-
         Row =< 10,
         Col =< 10,
         NextC is Col + 1,
-       
-        
+
+
         piecesHor(GameBoard,Row,NextC,TmpPieces),
         (
                 (getValueFromMatrix(GameBoard,Row,Col,'red');getValueFromMatrix(GameBoard,Row,Col,'green');getValueFromMatrix(GameBoard,Row,Col,'yellow')),
@@ -100,7 +100,7 @@ piecesDiagR(GameBoard,Row,Col,NPieces) :-
         Col =< 10,
         NextR is Row + 1,
         NextC is Col + 1,
-        
+
         piecesDiagR(GameBoard,NextR,NextC,TmpPieces),
         (
                 (getValueFromMatrix(GameBoard,Row,Col,'red');getValueFromMatrix(GameBoard,Row,Col,'green');getValueFromMatrix(GameBoard,Row,Col,'yellow')),
@@ -115,8 +115,8 @@ piecesDiagL(GameBoard,Row,Col,NPieces) :-
         Row =< 10,
         Col =< 10,
         NextR is Row + 1,
-        
-        
+
+
         piecesDiagL(GameBoard,NextR,Col,TmpPieces),
         (
                 (getValueFromMatrix(GameBoard,Row,Col,'red');getValueFromMatrix(GameBoard,Row,Col,'green');getValueFromMatrix(GameBoard,Row,Col,'yellow')),
@@ -165,3 +165,18 @@ nPieces(GameBoard,Row,Col,'W',NPieces) :-
 
 nPieces(GameBoard,Row,Col,_,NPieces) :-
         NPieces = 0.
+
+movePiece(GameBoard, CurrentRow, CurrentCol, NewRow, NewCol) :-
+    selectMoveOption(Direction),
+    nPieces(GameBoard, CurrentRow, CurrentCol, Direction, NPieces),
+    calcPieceMovement(CurrentRow, CurrentCol, Direction, NPieces, NewRow, NewCol).
+
+/* Get new coords for piece movement */
+calcPieceMovement(Row, Col, 'E', TotalMovement, NewRow, NewCol) :-
+        NewRow is Row,
+        NewCol is Col + TotalMovement.
+
+calcPieceMovement(Row, Col, 'W', TotalMovement, NewRow, NewCol) :-
+        NewRow is Row,
+        NewCol is Col - TotalMovement.
+

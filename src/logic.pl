@@ -104,11 +104,13 @@ movePlayerPiece(GameState, Player, NextGameState) :-
     % Player selects his piece
     write('  Select one of your pieces:'), nl,
     selectPiece(GameBoard, Color, CurrentRow, CurrentCol),
-    replaceInMatrix(GameBoard, CurrentRow, CurrentCol, 'empty', NewGameBoard),
 
-    % Player selects open tile to place his piece
+    % Player selects direction to move his piece
     nl, write('  Select a direction to move:'), nl,
-    selectMoveOption(Direction),
+    movePiece(GameBoard, CurrentRow, CurrentCol, NewRow, NewCol),
+
+    % Update GameBoard
+    replaceInMatrix(GameBoard, CurrentRow, CurrentCol, 'empty', NewGameBoard),
     replaceInMatrix(NewGameBoard, NewRow, NewCol, Color, FinalGameBoard),
 
     % Update GameState
