@@ -130,8 +130,8 @@ piecesDiagL(_,_,_,0).
 
 
 nPieces(GameBoard,Row,Col,'NE',NPieces) :-
-        NewRow is Row - Col,
-        NewCol is 0,
+        NewRow is 0,
+        NewCol is Col,
         write(NewRow),write(NewCol),nl,
         piecesDiagL(GameBoard,NewRow,NewCol,NPieces).
 
@@ -142,14 +142,14 @@ nPieces(GameBoard,Row,Col,'NW',NPieces) :-
         piecesDiagR(GameBoard,NewRow,NewCol,NPieces).
 
 nPieces(GameBoard,Row,Col,'SE',NPieces) :-
-        NewRow is 0,
-        NewCol is Col,
+        NewRow is Row - Col,
+        NewCol is 0,
         write(NewRow),write(NewCol),nl,
         piecesDiagR(GameBoard,NewRow,NewCol,NPieces).
 
 nPieces(GameBoard,Row,Col,'SW',NPieces) :-
-        NewRow is Row - Col,
-        NewCol is 0,
+        NewRow is 0,
+        NewCol is Col,
         write(NewRow),write(NewCol),nl,
         piecesDiagL(GameBoard,NewRow,NewCol,NPieces).
 
