@@ -4,8 +4,7 @@
 
 /*Displays the game, including the score, board and pieces*/
 displayGame([GameBoard,GameScore|GameInfo],Player) :-
-    piecesDiagL(GameBoard,0,0,N), write(N),nl,
-    printHeader(GameScore,Player), 
+    printHeader(GameScore,Player),
     printMatrix(GameBoard, 1),
     printFooter(GameInfo).
 printMatrix([], 12).
@@ -53,7 +52,7 @@ printHeader(GameScore,Player):-
     write(Middle1Border),nl,
     write(Indice), nl,
     write(Middle2Border),nl.
-    
+
 
 
 /*Prints the Board footer that contains the player pieces*/
@@ -66,14 +65,14 @@ printFooter([Player1,Player2]) :-
 
     write(Indice), nl,
 
-    
+
     write(MiddleBorder), nl,
 
     write('  '),
     write(VerticalBorder),
     write('  Player 1 Pieces          Player 2 Pieces\t'),
     write(VerticalBorder), nl,
-    
+
 
     playerPieces(Player1, Player1Color, Player1Pieces),
     playerPieces(Player2, Player2Color, Player2Pieces),
