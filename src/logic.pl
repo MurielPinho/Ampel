@@ -10,7 +10,7 @@ initialize(NewGameState, Player) :-
 
     % Initialize board
     initialState(GameState),
-
+    
     % Start placing yellow pieces on the board
     placeYellowPiece(GameState, InitialPlayer, NewGameState, N),
 
@@ -115,3 +115,32 @@ movePlayerPiece(GameState, Player, NextGameState) :-
 
     % Update GameState
     setGameBoard(GameState, FinalGameBoard, NextGameState).
+
+checkAmpel(Board,Row,Col,Ampel,FinalBoard) :-
+    (
+        (checkAmpelDLU(Board,Col,Row,Ampel,FinalBoard),Ampel =:= 1);
+        (checkAmpelDRU(Board,Col,Row,Ampel,FinalBoard),Ampel =:= 1);
+        (checkAmpelHR(Board,Col,Row,Ampel,FinalBoard),Ampel =:= 1);
+        (checkAmpelDRD(Board,Col,Row,Ampel,FinalBoard),Ampel =:= 1);
+        (checkAmpelDLD(Board,Col,Row,Ampel,FinalBoard),Ampel =:= 1);
+        (checkAmpelHL(Board,Col,Row,Ampel,FinalBoard),Ampel =:= 1)
+    )
+    .
+
+checkVictory(GameState,Winner) :-
+    getScore(GameState,Score),
+    (
+        (checkVictoryP1(Score,Winner),Winner =:= 1);
+        (checkVictoryP2(Score,Winner),Winner =:= 2)     
+        
+    ).
+
+
+checkVictoryP1([ScoreP1,ScoreP2],Winner) :-
+    ScoreP1 >= 3 -> Winner = 1 ; Winner = 0 .
+   
+
+checkVictoryP2([ScoreP1,ScoreP2],Winner) :-
+    ScoreP2 >= 3 -> Winner = 2 ; Winner = 0 .
+   
+

@@ -5,13 +5,13 @@ initialState([[
 [red,red,blank,blank,blank,blank,blank,blank,blank,blank,blank],
 [empty,empty,empty,blank,blank,blank,blank,blank,blank,blank,blank],
 [empty,empty,empty,empty,blank,blank,blank,blank,blank,blank,blank],
-[empty,empty,empty,empty,empty,blank,blank,blank,blank,blank,blank],
-[empty,empty,empty,empty,empty,red,blank,blank,blank,blank,blank],
-[green,red,empty,empty,empty,empty,empty,blank,blank,blank,blank],
-[empty,empty,empty,empty,empty,empty,empty,yellow,blank,blank,blank],
-[yellow,empty,empty,empty,empty,empty,empty,empty,empty,blank,blank],
+[empty,empty,empty,empty,red,blank,blank,blank,blank,blank,blank],
+[empty,empty,empty,empty,empty,empty,blank,blank,blank,blank,blank],
+[green,empty,empty,empty,empty,empty,green,blank,blank,blank,blank],
+[empty,green,empty,empty,empty,empty,empty,yellow,blank,blank,blank],
+[yellow,empty,empty,empty,empty,empty,empty,empty,red,blank,blank],
 [empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,blank],
-[yellow,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty]],[0,0],[green,10],[red,10]]).
+[yellow,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty]],[2,3],[green,10],[red,10]]).
 
 
 /*Returns the symbol to be displayed on board */

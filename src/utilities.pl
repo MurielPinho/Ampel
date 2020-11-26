@@ -2,6 +2,12 @@
 getGameBoard([H | _T], GameBoard) :-
         GameBoard = H.
 
+getScore([_GameBoard, Score, _Player1, _Player2],GameScore) :-
+        GameScore = Score.
+
+setScore(GameState, NewScore, NewState) :-
+        replaceInList(GameState, 1, NewScore, NewState).
+
 /* Get player's pieces info */
 playerPieces([Color, Pieces], Color, Pieces).
 getPlayerInfo([_GameBoard, _Score, Player1, _Player2], 0, Color, Pieces) :-
@@ -129,41 +135,37 @@ piecesDiagL(_,_,_,0).
 
 
 
-nPieces(GameBoard,Row,Col,'NE',NPieces) :-
+nPieces(GameBoard,_Row,Col,'NE',NPieces) :-
         NewRow is 0,
         NewCol is Col,
-        write(NewRow),write(NewCol),nl,
         piecesDiagL(GameBoard,NewRow,NewCol,NPieces).
 
 nPieces(GameBoard,Row,Col,'NW',NPieces) :-
         NewRow is Row - Col,
         NewCol is 0,
-        write(NewRow),write(NewCol),nl,
         piecesDiagR(GameBoard,NewRow,NewCol,NPieces).
 
 nPieces(GameBoard,Row,Col,'SE',NPieces) :-
         NewRow is Row - Col,
         NewCol is 0,
-        write(NewRow),write(NewCol),nl,
         piecesDiagR(GameBoard,NewRow,NewCol,NPieces).
 
-nPieces(GameBoard,Row,Col,'SW',NPieces) :-
+nPieces(GameBoard,_Row,Col,'SW',NPieces) :-
         NewRow is 0,
         NewCol is Col,
-        write(NewRow),write(NewCol),nl,
         piecesDiagL(GameBoard,NewRow,NewCol,NPieces).
 
-nPieces(GameBoard,Row,Col,'E',NPieces) :-
+nPieces(GameBoard,Row,_Col,'E',NPieces) :-
         NewRow is Row,
         NewCol is 0,
         piecesHor(GameBoard,NewRow,NewCol,NPieces).
 
-nPieces(GameBoard,Row,Col,'W',NPieces) :-
+nPieces(GameBoard,Row,_Col,'W',NPieces) :-
         NewRow is Row,
         NewCol is 0,
         piecesHor(GameBoard,NewRow,NewCol,NPieces).
 
-nPieces(GameBoard,Row,Col,_,NPieces) :-
+nPieces(_GameBoard,_Row,_Col,_,NPieces) :-
         NPieces = 0.
 
 movePiece(GameBoard, CurrentRow, CurrentCol, NewRow, NewCol) :-
@@ -180,3 +182,98 @@ calcPieceMovement(Row, Col, 'W', TotalMovement, NewRow, NewCol) :-
         NewRow is Row,
         NewCol is Col - TotalMovement.
 
+checkAmpelDLU(Board,Col,Row,Ampel,FinalBoard) :- 
+    P2Col is Col - 1,  
+    P2Row is Row - 1,  
+    P3Col is Col - 2,
+    P3Row is Row - 2,
+    getValueFromMatrix(Board,Row,Col,P1),
+    getValueFromMatrix(Board,P2Row,P2Col,P2),
+    getValueFromMatrix(Board,P3Row,P3Col,P3),
+    ((P1 == 'red' , P2 == 'yellow' , P3 == 'green');(P1 == 'green' ,P2 == 'yellow' , P3 == 'red')),
+            replaceInMatrix(Board, P3Row, P3Col, 'empty', TmpBoard),replaceInMatrix(TmpBoard, P2Row, P2Col, 'empty', NewBoard),
+            replaceInMatrix(NewBoard, Row, Col, 'empty', FinalBoard),
+            Ampel = 1
+            ;
+            Ampel = 0.
+    
+
+checkAmpelDLD(Board,Col,Row,Ampel,FinalBoard) :- 
+    P2Col is Col + 1,  
+    P2Row is Row + 1,  
+    P3Col is Col + 2,
+    P3Row is Row + 2,
+    getValueFromMatrix(Board,Row,Col,P1),
+    getValueFromMatrix(Board,P2Row,P2Col,P2),
+    getValueFromMatrix(Board,P3Row,P3Col,P3),
+    ((P1 == 'red' , P2 == 'yellow' , P3 == 'green');(P1 == 'green' ,P2 == 'yellow' , P3 == 'red')),
+            replaceInMatrix(Board, P3Row, P3Col, 'empty', TmpBoard),replaceInMatrix(TmpBoard, P2Row, P2Col, 'empty', NewBoard),
+            replaceInMatrix(NewBoard, Row, Col, 'empty', FinalBoard),
+            Ampel = 1
+            ;
+            Ampel = 0.
+      
+
+checkAmpelDRU(Board,Col,Row,Ampel,FinalBoard) :- 
+    P2Col is Col ,  
+    P2Row is Row - 1,  
+    P3Col is Col ,
+    P3Row is Row - 2,
+    getValueFromMatrix(Board,Row,Col,P1),
+    getValueFromMatrix(Board,P2Row,P2Col,P2),
+    getValueFromMatrix(Board,P3Row,P3Col,P3),
+    ((P1 == 'red' , P2 == 'yellow' , P3 == 'green');(P1 == 'green' ,P2 == 'yellow' , P3 == 'red')),
+            replaceInMatrix(Board, P3Row, P3Col, 'empty', TmpBoard),replaceInMatrix(TmpBoard, P2Row, P2Col, 'empty', NewBoard),
+            replaceInMatrix(NewBoard, Row, Col, 'empty', FinalBoard),
+            Ampel = 1
+            ;
+            Ampel = 0.
+      
+
+checkAmpelDRD(Board,Col,Row,Value,FinalBoard) :- 
+    P2Col is Col ,  
+    P2Row is Row + 1,  
+    P3Col is Col ,
+    P3Row is Row + 2,
+    getValueFromMatrix(Board,Row,Col,P1),
+    getValueFromMatrix(Board,P2Row,P2Col,P2),
+    getValueFromMatrix(Board,P3Row,P3Col,P3),
+    ((P1 == 'red' , P2 == 'yellow' , P3 == 'green');(P1 == 'green' ,P2 == 'yellow' , P3 == 'red')),
+            replaceInMatrix(Board, P3Row, P3Col, 'empty', TmpBoard),replaceInMatrix(TmpBoard, P2Row, P2Col, 'empty', NewBoard),
+            replaceInMatrix(NewBoard, Row, Col, 'empty', FinalBoard),
+            Value = 1
+            ;
+            Value = 0.
+    
+
+checkAmpelHR(Board,Col,Row,Ampel,FinalBoard) :- 
+    P2Col is Col + 1,  
+    P2Row is Row ,  
+    P3Col is Col + 2,
+    P3Row is Row ,
+    getValueFromMatrix(Board,Row,Col,P1),
+    getValueFromMatrix(Board,P2Row,P2Col,P2),
+    getValueFromMatrix(Board,P3Row,P3Col,P3),
+    ((P1 == 'red' , P2 == 'yellow' , P3 == 'green');(P1 == 'green' ,P2 == 'yellow' , P3 == 'red')),
+            replaceInMatrix(Board, P3Row, P3Col, 'empty', TmpBoard),replaceInMatrix(TmpBoard, P2Row, P2Col, 'empty', NewBoard),
+            replaceInMatrix(NewBoard, Row, Col, 'empty', FinalBoard),
+            Ampel = 1
+            ;
+            Ampel = 0.
+     
+
+checkAmpelHL(Board,Col,Row,Ampel,FinalBoard) :- 
+    P2Col is Col - 1,  
+    P2Row is Row ,  
+    P3Col is Col - 2,
+    P3Row is Row ,
+    getValueFromMatrix(Board,Row,Col,P1),
+    getValueFromMatrix(Board,P2Row,P2Col,P2),
+    getValueFromMatrix(Board,P3Row,P3Col,P3),
+    ((P1 == 'red' , P2 == 'yellow' , P3 == 'green');(P1 == 'green' ,P2 == 'yellow' , P3 == 'red')),
+            replaceInMatrix(Board, P3Row, P3Col, 'empty', TmpBoard),replaceInMatrix(TmpBoard, P2Row, P2Col, 'empty', NewBoard),
+            replaceInMatrix(NewBoard, Row, Col, 'empty', FinalBoard),
+            Ampel = 1
+            ;
+            Ampel = 0.
+        
