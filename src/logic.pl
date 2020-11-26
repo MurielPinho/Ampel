@@ -136,11 +136,11 @@ checkVictory(GameState,Winner) :-
     ).
 
 
-checkVictoryP1([ScoreP1,ScoreP2],Winner) :-
+checkVictoryP1([ScoreP1,_ScoreP2],Winner) :-
     ScoreP1 >= 3 -> Winner = 1 ; Winner = 0 .
    
 
-checkVictoryP2([ScoreP1,ScoreP2],Winner) :-
+checkVictoryP2([_ScoreP1,ScoreP2],Winner) :-
     ScoreP2 >= 3 -> Winner = 2 ; Winner = 0 .
    
 
