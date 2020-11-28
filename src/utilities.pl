@@ -250,9 +250,9 @@ checkAmpelDLU(Board,Col,Row,Ampel,FinalBoard) :-
 
 
 checkAmpelDLD(Board,Col,Row,Ampel,FinalBoard) :-
-    P2Col is Col + 1,
+    P2Col is Col ,
     P2Row is Row + 1,
-    P3Col is Col + 2,
+    P3Col is Col ,
     P3Row is Row + 2,
     getValueFromMatrix(Board,Row,Col,P1),
     getValueFromMatrix(Board,P2Row,P2Col,P2),
@@ -282,9 +282,9 @@ checkAmpelDRU(Board,Col,Row,Ampel,FinalBoard) :-
 
 
 checkAmpelDRD(Board,Col,Row,Value,FinalBoard) :-
-    P2Col is Col ,
+    P2Col is Col + 1,
     P2Row is Row + 1,
-    P3Col is Col ,
+    P3Col is Col + 2,
     P3Row is Row + 2,
     getValueFromMatrix(Board,Row,Col,P1),
     getValueFromMatrix(Board,P2Row,P2Col,P2),
