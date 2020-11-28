@@ -7,11 +7,11 @@ initialState([[
 [empty,empty,empty,empty,blank,blank,blank,blank,blank,blank,blank],
 [empty,empty,empty,empty,red,blank,blank,blank,blank,blank,blank],
 [empty,empty,empty,empty,empty,empty,blank,blank,blank,blank,blank],
-[green,empty,empty,empty,empty,empty,green,blank,blank,blank,blank],
+[green,empty,empty,empty,empty,empty,empty,blank,blank,blank,blank],
 [empty,green,empty,empty,empty,empty,empty,yellow,blank,blank,blank],
 [yellow,empty,empty,empty,empty,empty,empty,empty,red,blank,blank],
 [empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,blank],
-[yellow,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty]],[2,3],[green,10],[red,10]]).
+[yellow,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty]],[0,0],[green,20],[red,20]]).
 
 /*Returns the symbol to be displayed on board */
 symbol(blank,S) :- atom_codes(S, [0x0020]).
@@ -20,7 +20,7 @@ symbol(yellow,S) :- atom_codes(S, [0x2502, 0x0059, 0x2502]).
 symbol(green,S) :- atom_codes(S, [0x2502, 0x0047, 0x2502]).
 symbol(red,S) :- atom_codes(S, [0x2502, 0x0052, 0x2502]).
 
-                                          
+
 printMainMenu :-
     border('t',TopBorder),
     border('b',BotBorder),

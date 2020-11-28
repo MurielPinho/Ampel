@@ -94,9 +94,7 @@ placePlayerPiece(GameState, Player, NextGameState) :-
     getGameBoard(GameState, GameBoard),
 
     % Player selects open tile to place his piece
-    write('  Select tile to place your piece:'), nl,
-    selectTile(GameBoard, Row, Col),
-    replaceInMatrix(GameBoard, Row, Col, Color, NewGameBoard),
+    placePiece(GameBoard, Color, NewGameBoard),
 
     % Update GameState
     NewPieces is Pieces - 1,
