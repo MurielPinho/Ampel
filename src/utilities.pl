@@ -168,10 +168,33 @@ nPieces(GameBoard,Row,_Col,'W',NPieces) :-
 nPieces(_GameBoard,_Row,_Col,_,NPieces) :-
         NPieces = 0.
 
-movePiece(GameBoard, CurrentRow, CurrentCol, NewRow, NewCol) :-
+movePiece(GameBoard, CurrentRow, CurrentCol, FinalRow, FinalCol) :-
+    nl, write('  Select a direction to move:'), nl,
     selectMoveOption(Direction),
+    nl,
     nPieces(GameBoard, CurrentRow, CurrentCol, Direction, NPieces),
-    calcPieceMovement(CurrentRow, CurrentCol, Direction, NPieces, NewRow, NewCol).
+    calcPieceMovement(CurrentRow, CurrentCol, Direction, NPieces, NewRow, NewCol),
+    ( NewRow > CurrentRow -> RowInc = 1 ; (NewRow < CurrentRow -> RowInc = -1 ; RowInc = 0)),
+    ( NewCol > CurrentCol -> ColInc = 1 ; (NewCol < CurrentCol -> ColInc = -1 ; ColInc = 0)),
+    CurrentRow1 is CurrentRow + RowInc, % Start at next position
+    CurrentCol1 is CurrentCol + ColInc, % Start at next position
+    checkMovePossible(GameBoard, CurrentRow1, NewRow, RowInc, CurrentCol1, NewCol, ColInc, Possible),
+    (Possible == 1 -> FinalRow = NewRow, FinalCol = NewCol ;
+    write('  Can\'t move in this direction. Try again.'),nl,
+    movePiece(GameBoard, CurrentRow, CurrentCol, FinalRow, FinalCol)).
+
+/* Checks if move is possible */
+checkMovePossible(GameBoard, CurrentRow, _NewRow, 0, CurrentCol, _NewCol, 0, Possible) :-
+        getValueFromMatrix(GameBoard, CurrentRow, CurrentCol, Value),
+        (Value \= 'empty' -> Possible = 0 ; Possible = 1).
+checkMovePossible(GameBoard, CurrentRow, NewRow, RowInc, CurrentCol, NewCol, ColInc, Possible) :-
+        (CurrentRow == NewRow -> RowInc1 = 0 ; RowInc1 = RowInc),
+        (CurrentCol == NewCol -> ColInc1 = 0 ; ColInc1 = ColInc),
+        getValueFromMatrix(GameBoard, CurrentRow, CurrentCol, Value),
+        CurrentRow1 is CurrentRow + RowInc,
+        CurrentCol1 is CurrentCol + ColInc,
+        (Value \= 'empty' -> Possible = 0 ; checkMovePossible(GameBoard, CurrentRow1, NewRow, RowInc1, CurrentCol1, NewCol, ColInc1, Possible)).
+
 
 /* Get new coords for piece movement */
 calcPieceMovement(Row, Col, 'E', TotalMovement, NewRow, NewCol) :-
@@ -182,9 +205,9 @@ calcPieceMovement(Row, Col, 'W', TotalMovement, NewRow, NewCol) :-
         NewRow is Row,
         NewCol is Col - TotalMovement.
 
-checkAmpelDLU(Board,Col,Row,Ampel,FinalBoard) :- 
-    P2Col is Col - 1,  
-    P2Row is Row - 1,  
+checkAmpelDLU(Board,Col,Row,Ampel,FinalBoard) :-
+    P2Col is Col - 1,
+    P2Row is Row - 1,
     P3Col is Col - 2,
     P3Row is Row - 2,
     getValueFromMatrix(Board,Row,Col,P1),
@@ -196,11 +219,11 @@ checkAmpelDLU(Board,Col,Row,Ampel,FinalBoard) :-
             Ampel = 1
             ;
             Ampel = 0.
-    
 
-checkAmpelDLD(Board,Col,Row,Ampel,FinalBoard) :- 
-    P2Col is Col + 1,  
-    P2Row is Row + 1,  
+
+checkAmpelDLD(Board,Col,Row,Ampel,FinalBoard) :-
+    P2Col is Col + 1,
+    P2Row is Row + 1,
     P3Col is Col + 2,
     P3Row is Row + 2,
     getValueFromMatrix(Board,Row,Col,P1),
@@ -212,11 +235,11 @@ checkAmpelDLD(Board,Col,Row,Ampel,FinalBoard) :-
             Ampel = 1
             ;
             Ampel = 0.
-      
 
-checkAmpelDRU(Board,Col,Row,Ampel,FinalBoard) :- 
-    P2Col is Col ,  
-    P2Row is Row - 1,  
+
+checkAmpelDRU(Board,Col,Row,Ampel,FinalBoard) :-
+    P2Col is Col ,
+    P2Row is Row - 1,
     P3Col is Col ,
     P3Row is Row - 2,
     getValueFromMatrix(Board,Row,Col,P1),
@@ -228,11 +251,11 @@ checkAmpelDRU(Board,Col,Row,Ampel,FinalBoard) :-
             Ampel = 1
             ;
             Ampel = 0.
-      
 
-checkAmpelDRD(Board,Col,Row,Value,FinalBoard) :- 
-    P2Col is Col ,  
-    P2Row is Row + 1,  
+
+checkAmpelDRD(Board,Col,Row,Value,FinalBoard) :-
+    P2Col is Col ,
+    P2Row is Row + 1,
     P3Col is Col ,
     P3Row is Row + 2,
     getValueFromMatrix(Board,Row,Col,P1),
@@ -244,11 +267,11 @@ checkAmpelDRD(Board,Col,Row,Value,FinalBoard) :-
             Value = 1
             ;
             Value = 0.
-    
 
-checkAmpelHR(Board,Col,Row,Ampel,FinalBoard) :- 
-    P2Col is Col + 1,  
-    P2Row is Row ,  
+
+checkAmpelHR(Board,Col,Row,Ampel,FinalBoard) :-
+    P2Col is Col + 1,
+    P2Row is Row ,
     P3Col is Col + 2,
     P3Row is Row ,
     getValueFromMatrix(Board,Row,Col,P1),
@@ -260,11 +283,11 @@ checkAmpelHR(Board,Col,Row,Ampel,FinalBoard) :-
             Ampel = 1
             ;
             Ampel = 0.
-     
 
-checkAmpelHL(Board,Col,Row,Ampel,FinalBoard) :- 
-    P2Col is Col - 1,  
-    P2Row is Row ,  
+
+checkAmpelHL(Board,Col,Row,Ampel,FinalBoard) :-
+    P2Col is Col - 1,
+    P2Row is Row ,
     P3Col is Col - 2,
     P3Row is Row ,
     getValueFromMatrix(Board,Row,Col,P1),
@@ -276,4 +299,3 @@ checkAmpelHL(Board,Col,Row,Ampel,FinalBoard) :-
             Ampel = 1
             ;
             Ampel = 0.
-        

@@ -10,7 +10,7 @@ initialize(NewGameState, Player) :-
 
     % Initialize board
     initialState(GameState),
-    
+
     % Start placing yellow pieces on the board
     placeYellowPiece(GameState, InitialPlayer, NewGameState, N),
 
@@ -106,7 +106,6 @@ movePlayerPiece(GameState, Player, NextGameState) :-
     selectPiece(GameBoard, Color, CurrentRow, CurrentCol),
 
     % Player selects direction to move his piece
-    nl, write('  Select a direction to move:'), nl,
     movePiece(GameBoard, CurrentRow, CurrentCol, NewRow, NewCol),
 
     % Update GameBoard
@@ -131,16 +130,16 @@ checkVictory(GameState,Winner) :-
     getScore(GameState,Score),
     (
         (checkVictoryP1(Score,Winner),Winner =:= 1);
-        (checkVictoryP2(Score,Winner),Winner =:= 2)     
-        
+        (checkVictoryP2(Score,Winner),Winner =:= 2)
+
     ).
 
 
 checkVictoryP1([ScoreP1,_ScoreP2],Winner) :-
     ScoreP1 >= 3 -> Winner = 1 ; Winner = 0 .
-   
+
 
 checkVictoryP2([_ScoreP1,ScoreP2],Winner) :-
     ScoreP2 >= 3 -> Winner = 2 ; Winner = 0 .
-   
+
 
