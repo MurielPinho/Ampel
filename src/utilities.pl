@@ -198,8 +198,7 @@ movePiece(GameBoard, CurrentRow, CurrentCol, FinalRow, FinalCol) :-
 
 /* Checks if move is possible */
 checkMovePossible(GameBoard, CurrentRow, _NewRow, 0, CurrentCol, _NewCol, 0, Possible) :-
-    getValueFromMatrix(GameBoard, CurrentRow, CurrentCol, Value),
-    (Value \= 'empty' -> Possible = 0 ; Possible = 1).
+    Possible = 1.
 checkMovePossible(GameBoard, CurrentRow, NewRow, RowInc, CurrentCol, NewCol, ColInc, Possible) :-
     (CurrentRow == NewRow -> RowInc1 = 0 ; RowInc1 = RowInc),
     (CurrentCol == NewCol -> ColInc1 = 0 ; ColInc1 = ColInc),

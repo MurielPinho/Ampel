@@ -7,7 +7,7 @@ initialState([[
 [empty,empty,empty,empty,blank,blank,blank,blank,blank,blank,blank],
 [empty,empty,empty,empty,red,blank,blank,blank,blank,blank,blank],
 [empty,empty,empty,empty,empty,empty,blank,blank,blank,blank,blank],
-[green,empty,empty,empty,empty,empty,empty,blank,blank,blank,blank],
+[green,empty,empty,yellow,empty,empty,empty,blank,blank,blank,blank],
 [empty,green,empty,empty,empty,empty,empty,yellow,blank,blank,blank],
 [yellow,empty,empty,empty,empty,empty,empty,empty,red,blank,blank],
 [empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,blank],
