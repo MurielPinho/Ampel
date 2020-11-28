@@ -217,6 +217,22 @@ calcPieceMovement(Row, Col, 'W', TotalMovement, NewRow, NewCol) :-
     NewRow is Row,
     NewCol is Col - TotalMovement.
 
+calcPieceMovement(Row, Col, 'NW', TotalMovement, NewRow, NewCol) :-
+    NewRow is Row - TotalMovement,
+    NewCol is Col - TotalMovement.
+
+calcPieceMovement(Row, Col, 'SW', TotalMovement, NewRow, NewCol) :-
+    NewRow is Row + TotalMovement,
+    NewCol is Col.
+
+calcPieceMovement(Row, Col, 'NE', TotalMovement, NewRow, NewCol) :-
+    NewRow is Row - TotalMovement,
+    NewCol is Col.
+
+calcPieceMovement(Row, Col, 'SE', TotalMovement, NewRow, NewCol) :-
+    NewRow is Row + TotalMovement,
+    NewCol is Col + TotalMovement.
+
 checkAmpelDLU(Board,Col,Row,Ampel,FinalBoard) :-
     P2Col is Col - 1,
     P2Row is Row - 1,
