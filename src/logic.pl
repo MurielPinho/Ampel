@@ -50,30 +50,40 @@ placeYellowPiece(GameState, Player, NewGameState, N) :-
 %%%%%%%%%%%%%
 
 /* Main Loop */
-gameLoop(GameState, Player, NewGameState, Done) :-
+gameLoop(GameState, Player, Done) :-
     Done < 1,
 
     % NextPlayer is mod(Player + 1, 2),
     NextPlayer is mod(Player + 1, 2),
 
-    % Display the game
+    % Get user's play option
+    % getUserOption(Input),
+    % (
+    %     1 is Input ->
+    %         % Player chooses to place a piece
+    %         placePlayerPiece(GameState, Player, NextGameState)
+    %     ;
+    %         % Player chooses to move a piece
+    %         movePlayerPiece(GameState, Player, NextGameState)
+    % ),
+
+    % 1. Move one of your pieces
     clear,
     displayGame(GameState, Player),
+    movePlayerPiece(GameState, Player, NextGameState1),
 
-    % Get user's play option
-    getUserOption(Input),
+    % 2. Move one of your oponent's pieces
+    clear,
+    displayGame(NextGameState1, Player),
+    movePlayerPiece(NextGameState1, NextPlayer, NextGameState2),
 
-    (
-        1 is Input ->
-            % Player chooses to place a piece
-            placePlayerPiece(GameState, Player, NextGameState)
-        ;
-            % Player chooses to move a piece
-            movePlayerPiece(GameState, Player, NextGameState)
-    ),
+    % 3. Place one of your piece
+    clear,
+    displayGame(NextGameState2, Player),
+    placePlayerPiece(NextGameState2, Player, NextGameState3),
 
     % Next round
-    gameLoop(NextGameState, NextPlayer, NewGameState, Done).
+    gameLoop(NextGameState3, NextPlayer, Done).
 
 
 /* Place piece */
@@ -102,7 +112,7 @@ movePlayerPiece(GameState, Player, NextGameState) :-
     getGameBoard(GameState, GameBoard),
 
     % Player selects his piece
-    write('  Select one of your pieces:'), nl,
+    format('  Select a ~p piece to move:', Color), nl,
     selectPiece(GameBoard, Color, CurrentRow, CurrentCol),
 
     % Player selects direction to move his piece
