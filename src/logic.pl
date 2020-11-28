@@ -56,26 +56,20 @@ gameLoop(GameState, Player, Done) :-
     % NextPlayer is mod(Player + 1, 2),
     NextPlayer is mod(Player + 1, 2),
 
-    % Get user's play option
-    % getUserOption(Input),
-    % (
-    %     1 is Input ->
-    %         % Player chooses to place a piece
-    %         placePlayerPiece(GameState, Player, NextGameState)
-    %     ;
-    %         % Player chooses to move a piece
-    %         movePlayerPiece(GameState, Player, NextGameState)
-    % ),
+    % Get players info
+    getPlayerInfo(GameState, Player, Color, _Pieces),
+    getPlayerInfo(GameState, NextPlayer, NextColor, _NextPieces),
+
 
     % 1. Move one of your pieces
     clear,
     displayGame(GameState, Player),
-    movePlayerPiece(GameState, Player, NextGameState1),
+    movePlayerPiece(GameState, Player, Color, NextGameState1),
 
     % 2. Move one of your oponent's pieces
     clear,
     displayGame(NextGameState1, Player),
-    movePlayerPiece(NextGameState1, NextPlayer, NextGameState2),
+    movePlayerPiece(NextGameState1, Player, NextColor, NextGameState2),
 
     % 3. Place one of your piece
     clear,
@@ -103,10 +97,9 @@ placePlayerPiece(GameState, Player, NextGameState) :-
 
 
 /* Move piece */
-movePlayerPiece(GameState, Player, NextGameState) :-
+movePlayerPiece(GameState, Player, Color, NextGameState) :-
 
     % Get info from current state/player
-    getPlayerInfo(GameState, Player, Color, _Pieces),
     getGameBoard(GameState, GameBoard),
 
     % Player selects his piece
@@ -118,10 +111,29 @@ movePlayerPiece(GameState, Player, NextGameState) :-
 
     % Update GameBoard
     replaceInMatrix(GameBoard, CurrentRow, CurrentCol, 'empty', NewGameBoard),
-    replaceInMatrix(NewGameBoard, NewRow, NewCol, Color, FinalGameBoard),
+    replaceInMatrix(NewGameBoard, NewRow, NewCol, Color, UpdatedGameBoard),
+
+    % Check for Ampel
+    (
+        checkAmpel(UpdatedGameBoard,NewCol, NewRow, Ampel, AmpelBoard) ->
+            FinalGameBoard = AmpelBoard,
+            updateAfterAmpel(GameState, Player, FinalGameState);
+            FinalGameBoard = UpdatedGameBoard,
+            FinalGameState = GameState
+    ),
 
     % Update GameState
-    setGameBoard(GameState, FinalGameBoard, NextGameState).
+    setGameBoard(FinalGameState, FinalGameBoard, NextGameState).
+
+
+updateAfterAmpel(GameState, Player, NewState) :-
+    getScore(GameState, [ScoreP1 | ScoreP2]),
+    (
+        Player =:= 0 -> NewScoreP1 is ScoreP1 + 1, NewScoreP2 = ScoreP2;
+            NewScoreP1 = ScoreP1, NewScoreP2 is ScoreP2 + 1
+    ),
+    setScore(GameState, [NewScoreP1 | NewScoreP2], NewState).
+
 
 checkAmpel(Board,Row,Col,Ampel,FinalBoard) :-
     (
