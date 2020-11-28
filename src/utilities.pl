@@ -186,52 +186,64 @@ movePiece(GameBoard, CurrentRow, CurrentCol, FinalRow, FinalCol) :-
     selectMoveOption(Direction),
     nl,
     nPieces(GameBoard, CurrentRow, CurrentCol, Direction, NPieces),
-    calcPieceMovement(CurrentRow, CurrentCol, Direction, NPieces, NewRow, NewCol),
-    ( NewRow > CurrentRow -> RowInc = 1 ; (NewRow < CurrentRow -> RowInc = -1 ; RowInc = 0)),
-    ( NewCol > CurrentCol -> ColInc = 1 ; (NewCol < CurrentCol -> ColInc = -1 ; ColInc = 0)),
-    CurrentRow1 is CurrentRow + RowInc, % Start at next position
-    CurrentCol1 is CurrentCol + ColInc, % Start at next position
-    checkMovePossible(GameBoard, CurrentRow1, NewRow, RowInc, CurrentCol1, NewCol, ColInc, Possible),
-    (Possible == 1 -> FinalRow = NewRow, FinalCol = NewCol ;
-    write('  Can\'t move in this direction. Try again.'),nl,
-    movePiece(GameBoard, CurrentRow, CurrentCol, FinalRow, FinalCol)).
+    calcPieceMovement(CurrentRow, CurrentCol, Direction, NPieces, DestRow, DestCol),
+    ( DestRow > CurrentRow -> RowInc = 1 ; (DestRow < CurrentRow -> RowInc = -1 ; RowInc = 0)),
+    ( DestCol > CurrentCol -> ColInc = 1 ; (DestCol < CurrentCol -> ColInc = -1 ; ColInc = 0)),
+
+    NextRow is CurrentRow + RowInc,
+    NextCol is CurrentCol + ColInc,
+    getValueFromMatrix(GameBoard, NextRow, NextCol, Value),
+    (
+        Value \= 'empty' ->
+            write('  Can\'t move in this direction. Try again.'),nl,
+            movePiece(GameBoard, CurrentRow, CurrentCol, FinalRow, FinalCol)
+        ;
+        checkMovePossible(GameBoard, NextRow, DestRow, RowInc, NextCol, DestCol, ColInc, FinalRow, FinalCol)
+    ).
 
 /* Checks if move is possible */
-checkMovePossible(GameBoard, CurrentRow, _NewRow, 0, CurrentCol, _NewCol, 0, Possible) :-
-    Possible = 1.
-checkMovePossible(GameBoard, CurrentRow, NewRow, RowInc, CurrentCol, NewCol, ColInc, Possible) :-
-    (CurrentRow == NewRow -> RowInc1 = 0 ; RowInc1 = RowInc),
-    (CurrentCol == NewCol -> ColInc1 = 0 ; ColInc1 = ColInc),
-    getValueFromMatrix(GameBoard, CurrentRow, CurrentCol, Value),
-    CurrentRow1 is CurrentRow + RowInc,
-    CurrentCol1 is CurrentCol + ColInc,
-    (Value \= 'empty' -> Possible = 0 ; checkMovePossible(GameBoard, CurrentRow1, NewRow, RowInc1, CurrentCol1, NewCol, ColInc1, Possible)).
+checkMovePossible(GameBoard, CurrentRow, _DestRow, 0, CurrentCol, _DestCol, 0, PossibleRow, PossibleCol) :-
+    PossibleRow = CurrentRow,
+    PossibleCol = CurrentCol.
+
+checkMovePossible(GameBoard, CurrentRow, DestRow, RowInc, CurrentCol, DestCol, ColInc, PossibleRow, PossibleCol) :-
+    NextRow is CurrentRow + RowInc, % Start at next position
+    NextCol is CurrentCol + ColInc, % Start at next position
+
+    (NextRow == DestRow -> RowInc1 = 0 ; RowInc1 = RowInc),
+    (NextCol == DestCol -> ColInc1 = 0 ; ColInc1 = ColInc),
+
+    getValueFromMatrix(GameBoard, NextRow, NextCol, Value),
+    (
+    Value \= 'empty' -> PossibleRow = CurrentRow, PossibleCol = CurrentCol ;
+     checkMovePossible(GameBoard, NextRow, DestRow, RowInc1, NextCol, DestCol, ColInc1, PossibleRow, PossibleCol)
+    ).
 
 
 /* Get new coords for piece movement */
-calcPieceMovement(Row, Col, 'E', TotalMovement, NewRow, NewCol) :-
-    NewRow is Row,
-    NewCol is Col + TotalMovement.
+calcPieceMovement(Row, Col, 'E', TotalMovement, DestRow, DestCol) :-
+    DestRow is Row,
+    DestCol is Col + TotalMovement.
 
-calcPieceMovement(Row, Col, 'W', TotalMovement, NewRow, NewCol) :-
-    NewRow is Row,
-    NewCol is Col - TotalMovement.
+calcPieceMovement(Row, Col, 'W', TotalMovement, DestRow, DestCol) :-
+    DestRow is Row,
+    DestCol is Col - TotalMovement.
 
-calcPieceMovement(Row, Col, 'NW', TotalMovement, NewRow, NewCol) :-
-    NewRow is Row - TotalMovement,
-    NewCol is Col - TotalMovement.
+calcPieceMovement(Row, Col, 'NW', TotalMovement, DestRow, DestCol) :-
+    DestRow is Row - TotalMovement,
+    DestCol is Col - TotalMovement.
 
-calcPieceMovement(Row, Col, 'SW', TotalMovement, NewRow, NewCol) :-
-    NewRow is Row + TotalMovement,
-    NewCol is Col.
+calcPieceMovement(Row, Col, 'SW', TotalMovement, DestRow, DestCol) :-
+    DestRow is Row + TotalMovement,
+    DestCol is Col.
 
-calcPieceMovement(Row, Col, 'NE', TotalMovement, NewRow, NewCol) :-
-    NewRow is Row - TotalMovement,
-    NewCol is Col.
+calcPieceMovement(Row, Col, 'NE', TotalMovement, DestRow, DestCol) :-
+    DestRow is Row - TotalMovement,
+    DestCol is Col.
 
-calcPieceMovement(Row, Col, 'SE', TotalMovement, NewRow, NewCol) :-
-    NewRow is Row + TotalMovement,
-    NewCol is Col + TotalMovement.
+calcPieceMovement(Row, Col, 'SE', TotalMovement, DestRow, DestCol) :-
+    DestRow is Row + TotalMovement,
+    DestCol is Col + TotalMovement.
 
 checkAmpelDLU(Board,Col,Row,Ampel,FinalBoard) :-
     P2Col is Col - 1,
