@@ -125,14 +125,22 @@ movePlayerPiece(GameState, Player, Color, NextGameState) :-
     % Update GameState
     setGameBoard(FinalGameState, FinalGameBoard, NextGameState).
 
-
-updateAfterAmpel(GameState, Player, NewState) :-
+/* Updated GameState after ampel*/
+updateAfterAmpel(GameState, Player, FinalState) :-
     getScore(GameState, [ScoreP1 | ScoreP2]),
     (
         Player =:= 0 -> NewScoreP1 is ScoreP1 + 1, NewScoreP2 = ScoreP2;
             NewScoreP1 = ScoreP1, NewScoreP2 is ScoreP2 + 1
     ),
-    setScore(GameState, [NewScoreP1 | NewScoreP2], NewState).
+    setScore(GameState, [NewScoreP1 | NewScoreP2], NewState),
+
+    % % Return pieces to players
+    getPlayerInfo(NewState, 0, ColorP1, PiecesP1),
+    getPlayerInfo(NewState, 1, ColorP2, PiecesP2),
+    NewPiecesP1 is PiecesP1 + 1,
+    NewPiecesP2 is PiecesP2 + 1,
+    setPlayerPieces(NewState, 0, [ColorP1,NewPiecesP1], NewStateP1),
+    setPlayerPieces(NewStateP1, 1, [ColorP2,NewPiecesP2], FinalState).
 
 
 checkAmpel(Board,Row,Col,Ampel,FinalBoard) :-
