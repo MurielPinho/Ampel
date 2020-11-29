@@ -114,23 +114,15 @@ movePlayerPiece(GameState, Player, Color, NextGameState) :-
     selectPiece(GameBoard, Color, CurrentRow, CurrentCol),
 
     % Player selects direction to move his piece
-    movePiece(GameBoard, CurrentRow, CurrentCol, NewRow, NewCol),
+    nl, write('  Select a direction to move:'), nl,
+    selectMoveOption(Direction),
+    nl,
 
-    % Update GameBoard
-    replaceInMatrix(GameBoard, CurrentRow, CurrentCol, 'empty', NewGameBoard),
-    replaceInMatrix(NewGameBoard, NewRow, NewCol, Color, UpdatedGameBoard),
-
-    % Check for Ampel
-    (
-        checkAmpel(UpdatedGameBoard,NewCol, NewRow, Ampel, AmpelBoard) ->
-            FinalGameBoard = AmpelBoard,
-            updateAfterAmpel(GameState, Player, FinalGameState);
-            FinalGameBoard = UpdatedGameBoard,
-            FinalGameState = GameState
-    ),
-
-    % Update GameState
-    setGameBoard(FinalGameState, FinalGameBoard, NextGameState).
+    !,
+    move(GameState, [CurrentRow,CurrentCol,Direction,Color,Player], NextGameState)->
+        write('')
+        ;
+        movePlayerPiece(GameState, Player, Color, NextGameState).
 
 /* Updated GameState after ampel*/
 updateAfterAmpel(GameState, Player, FinalState) :-
