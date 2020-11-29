@@ -190,10 +190,9 @@ placePiece(GameBoard, Color, NewGameBoard) :-
     ).
 
 
-movePiece(GameBoard, CurrentRow, CurrentCol, FinalRow, FinalCol) :-
-    nl, write('  Select a direction to move:'), nl,
-    selectMoveOption(Direction),
-    nl,
+move(GameState,[CurrentRow, CurrentCol,Direction,Color,Player],NextGameState) :-
+  
+    getGameBoard(GameState,GameBoard),
     nPieces(GameBoard, CurrentRow, CurrentCol, Direction, NPieces),
     calcPieceMovement(CurrentRow, CurrentCol, Direction, NPieces, DestRow, DestCol),
     ( DestRow > CurrentRow -> RowInc = 1 ; (DestRow < CurrentRow -> RowInc = -1 ; RowInc = 0)),
@@ -202,12 +201,19 @@ movePiece(GameBoard, CurrentRow, CurrentCol, FinalRow, FinalCol) :-
     NextRow is CurrentRow + RowInc,
     NextCol is CurrentCol + ColInc,
     getValueFromMatrix(GameBoard, NextRow, NextCol, Value),
+    Value == 'empty' ,       
+    checkMovePossible(GameBoard, CurrentRow, DestRow, RowInc, CurrentCol, DestCol, ColInc, FinalRow, FinalCol),
+    replaceInMatrix(GameBoard, CurrentRow, CurrentCol, 'empty', NewGameBoard),
+    replaceInMatrix(NewGameBoard, FinalRow, FinalCol, Color, UpdatedGameBoard),
     (
-        Value \= 'empty' ->
-            movePiece(GameBoard, CurrentRow, CurrentCol, FinalRow, FinalCol)
-        ;
-        checkMovePossible(GameBoard, CurrentRow, DestRow, RowInc, CurrentCol, DestCol, ColInc, FinalRow, FinalCol)
-    ).
+    checkAmpel(UpdatedGameBoard,FinalCol, FinalRow, Ampel, AmpelBoard) ->
+        FinalGameBoard = AmpelBoard,
+        updateAfterAmpel(GameState, Player, FinalGameState);
+        FinalGameBoard = UpdatedGameBoard,
+        FinalGameState = GameState
+    ),
+    setGameBoard(FinalGameState, FinalGameBoard, NextGameState).
+
 
 /* Checks if move is possible */
 checkMovePossible(GameBoard, CurrentRow, _DestRow, 0, CurrentCol, _DestCol, 0, PossibleRow, PossibleCol) :-
