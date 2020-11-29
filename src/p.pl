@@ -3,7 +3,7 @@
 :- consult('logic.pl').
 :- consult('utilities.pl').
 :- consult('board.pl').
-
+:- use_module(library(random)).
 play :-
 
     % Main menu
@@ -11,6 +11,6 @@ play :-
 
     % Initialize game by setting yellow pieces
     initialize(GameState, Player),
-
+    
     % Start main game loop
     gameLoop(GameState, Player, Mode, Difficulty); nl,nl,write('\t       Thanks for playing!'),nl,nl.

@@ -81,7 +81,7 @@ gameLoop(GameState, CurrentPlayer, 1, Difficulty) :-
 
     playerTurn(GameState, CurrentPlayer, NextPlayer, NextGameState), % Returns false when game is done
 
-    gameLoop(NextGameState, NextPlayer).
+    gameLoop(NextGameState, NextPlayer,1,Difficulty).
 
 
 /* Player turn */
@@ -149,6 +149,7 @@ movePlayerPiece(GameState, Player, Color, NextGameState) :-
         write('')
         ;
         movePlayerPiece(GameState, Player, Color, NextGameState).
+        
 
 /* Updated GameState after ampel*/
 updateAfterAmpel(GameState, Player, FinalState) :-

@@ -189,6 +189,33 @@ placePiece(GameBoard, Color, NewGameBoard) :-
     NewGameBoard = UpdatedGameBoard
     ).
 
+placePieceBot(GameBoard,Color, NewGameBoard) :-
+    random(0,10,TempRow),
+    random(0,10,TempCol),
+    
+    getValueFromMatrix(GameBoard,TempRow,TempCol,Value),
+    (
+        Value == 'empty' , \+ checkAmpel(UpdatedGameBoard, TempRow, TempCol, Ampel, _) ->
+            replaceInMatrix(GameBoard, TempRow, TempCol, Color, UpdatedGameBoard),
+            NewGameBoard = UpdatedGameBoard
+            ;
+            placePieceBot(GameBoard, Color, NewGameBoard)      
+    ).
+
+placeYellowBot(GameBoard,NewGameBoard) :-
+    random(0,10,TempRow),
+    random(0,10,TempCol),
+    write(TempRow),write(' '),write(TempCol),nl,
+    getValueFromMatrix(GameBoard,TempRow,TempCol,Value),
+    write(Value),nl,
+    (
+        Value == 'empty' , verifyNotOnEdge(TempRow,TempCol,1) ->
+            replaceInMatrix(GameBoard, TempRow, TempCol, 'yellow', UpdatedGameBoard),
+            NewGameBoard = UpdatedGameBoard
+            ;
+            placeYellowBot(GameBoard, NewGameBoard)      
+    ).
+
 
 move(GameState,[CurrentRow, CurrentCol,Direction,Color,Player],NextGameState) :-
   
