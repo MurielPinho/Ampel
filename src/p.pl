@@ -10,4 +10,4 @@ play :-
 
     % Start main game loop
     Done = 0,
-    gameLoop(GameState, Player, Done).
+    gameLoop(GameState, Player).

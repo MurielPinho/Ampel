@@ -11,7 +11,7 @@ initialState([[
 [empty,green,empty,empty,empty,empty,empty,yellow,blank,blank,blank],
 [yellow,empty,empty,empty,empty,empty,empty,empty,red,blank,blank],
 [empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,blank],
-[yellow,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty]],[0,0],[green,20],[red,20]]).
+[yellow,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty]],[3,3],[green,20],[red,20]]).
 
 /*Returns the symbol to be displayed on board */
 symbol(blank,S) :- atom_codes(S, [0x0020]).
