@@ -10,4 +10,4 @@ play :-
 
     % Start main game loop
     Done = 0,
-    gameLoop(GameState, Player).
+    (gameLoop(GameState, Player); nl,nl,write('Thanks for playing!'),nl,nl).

@@ -53,7 +53,7 @@ gameLoop(GameState, Player) :-
     % NextPlayer is mod(Player + 1, 2)
     NextPlayer is mod(Player + 1, 2),
 
-    (playerTurn(GameState, Player, NextPlayer, NextGameState); false),
+    playerTurn(GameState, Player, NextPlayer, NextGameState), % Returns false when game is done
 
     gameLoop(NextGameState, NextPlayer).
 
@@ -69,14 +69,16 @@ playerTurn(GameState, Player, NextPlayer, NextGameState) :-
     clear,
     displayGame(GameState, Player),
     movePlayerPiece(GameState, Player, Color, NextGameState1),
+    clear,
+    displayGame(NextGameState1, Player),
     !,
     checkVictory(NextGameState1),
 
 
     % 2. Move one of your oponent's pieces
-    clear,
-    displayGame(NextGameState1, Player),
     movePlayerPiece(NextGameState1, Player, NextColor, NextGameState2),
+    clear,
+    displayGame(NextGameState2, Player),
     !,
     checkVictory(NextGameState2),
     % 3. Place one of your piece
@@ -161,4 +163,4 @@ checkAmpel(Board,Row,Col,Ampel,FinalBoard) :-
 
 checkVictory(GameState) :-
     getScore(GameState,[ScoreP1, ScoreP2]),
-    ScoreP1 < 3, ScoreP2 < 3.
+    (ScoreP1 < 3 ; \+ write('Winner: Player 1!')), (ScoreP2 < 3 ; \+ write('Winner: Player 2!')).
