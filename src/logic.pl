@@ -48,12 +48,15 @@ placeYellowPiece(GameState, Player, NewGameState, N) :-
 %%%%%%%%%%%%%
 % Main Game %
 %%%%%%%%%%%%%
-/* Main Loop */
-gameLoop(GameState, Player) :-
-    % NextPlayer is mod(Player + 1, 2)
-    NextPlayer is mod(Player + 1, 2),
 
-    playerTurn(GameState, Player, NextPlayer, NextGameState), % Returns false when game is done
+gameLoop(GameState, CurrentPlayer, Difficulty).
+
+/* PvP Main Loop */
+gameLoop(GameState, CurrentPlayer) :-
+    % NextPlayer is mod(Player + 1, 2)
+    NextPlayer is mod(CurrentPlayer + 1, 2),
+
+    playerTurn(GameState, CurrentPlayer, NextPlayer, NextGameState), % Returns false when game is done
 
     gameLoop(NextGameState, NextPlayer).
 
@@ -72,7 +75,7 @@ playerTurn(GameState, Player, NextPlayer, NextGameState) :-
     clear,
     displayGame(NextGameState1, Player),
     !,
-    checkVictory(NextGameState1),
+    \+ game_over(NextGameState1, Winner),
 
 
     % 2. Move one of your oponent's pieces
@@ -80,7 +83,7 @@ playerTurn(GameState, Player, NextPlayer, NextGameState) :-
     clear,
     displayGame(NextGameState2, Player),
     !,
-    checkVictory(NextGameState2),
+    \+ game_over(NextGameState2, Winner),
     % 3. Place one of your piece
     clear,
     displayGame(NextGameState2, Player),
@@ -161,6 +164,7 @@ checkAmpel(Board,Row,Col,Ampel,FinalBoard) :-
     )
     .
 
-checkVictory(GameState) :-
+game_over(GameState, Winner) :-
     getScore(GameState,[ScoreP1, ScoreP2]),
-    (ScoreP1 < 3 ; \+ write('Winner: Player 1!')), (ScoreP2 < 3 ; \+ write('Winner: Player 2!')).
+    (ScoreP1 >= 3, Winner = 1, nl,nl,format('\t\tWinner: Player ~p', Winner)) ;
+    (ScoreP2 >= 3,  Winner = 2, nl,nl,format('\t\tWinner: Player ~p', Winner)).
