@@ -181,5 +181,5 @@ checkAmpel(Board,Row,Col,Ampel,FinalBoard) :-
 
 game_over(GameState, Winner) :-
     getScore(GameState,[ScoreP1, ScoreP2]),
-    (ScoreP1 >= 3, Winner = 1, nl,nl,format('\t\tWinner: Player ~p', Winner)) ;
-    (ScoreP2 >= 3,  Winner = 2, nl,nl,format('\t\tWinner: Player ~p', Winner)).
+    (ScoreP1 >= 3, Winner = 1, nl,nl,format('\t\tWinner: Player ~p', Winner) ;
+    ScoreP2 >= 3,  Winner = 2, nl,nl,format('\t\tWinner: Player ~p', Winner)).
