@@ -85,10 +85,9 @@ convertPyramid(TempRow,TempCol,Row,Col) :-
     Col is Temp2 // 2.
 
 piecesHor(GameBoard,Row,Col,NPieces) :-
-    Row =< 10,
-    Col =< 10,
+    Row =< 10, Row >= 0,
+    Col =< 10, Col >= 0,
     NextC is Col + 1,
-
 
     piecesHor(GameBoard,Row,NextC,TmpPieces),
     (
@@ -195,10 +194,9 @@ movePiece(GameBoard, CurrentRow, CurrentCol, FinalRow, FinalCol) :-
     getValueFromMatrix(GameBoard, NextRow, NextCol, Value),
     (
         Value \= 'empty' ->
-            write('  Can\'t move in this direction. Try again.'),nl,
             movePiece(GameBoard, CurrentRow, CurrentCol, FinalRow, FinalCol)
         ;
-        checkMovePossible(GameBoard, NextRow, DestRow, RowInc, NextCol, DestCol, ColInc, FinalRow, FinalCol)
+        checkMovePossible(GameBoard, CurrentRow, DestRow, RowInc, CurrentCol, DestCol, ColInc, FinalRow, FinalCol)
     ).
 
 /* Checks if move is possible */
@@ -222,28 +220,40 @@ checkMovePossible(GameBoard, CurrentRow, DestRow, RowInc, CurrentCol, DestCol, C
 
 /* Get new coords for piece movement */
 calcPieceMovement(Row, Col, 'E', TotalMovement, DestRow, DestCol) :-
-    DestRow is Row,
-    DestCol is Col + TotalMovement.
+    TmpDestRow is Row,
+    TmpDestCol is Col + TotalMovement,
+    ( TmpDestRow < 0 -> DestRow = 0; DestRow = TmpDestRow),
+    ( TmpDestCol < 0 -> DestCol = 0; DestCol = TmpDestCol).
 
 calcPieceMovement(Row, Col, 'W', TotalMovement, DestRow, DestCol) :-
-    DestRow is Row,
-    DestCol is Col - TotalMovement.
+    TmpDestRow is Row,
+    TmpDestCol is Col - TotalMovement,
+    ( TmpDestRow < 0 -> DestRow = 0; DestRow = TmpDestRow),
+    ( TmpDestCol < 0 -> DestCol = 0; DestCol = TmpDestCol).
 
 calcPieceMovement(Row, Col, 'NW', TotalMovement, DestRow, DestCol) :-
-    DestRow is Row - TotalMovement,
-    DestCol is Col - TotalMovement.
+    TmpDestRow is Row - TotalMovement,
+    TmpDestCol is Col - TotalMovement,
+    ( TmpDestRow < 0 -> DestRow = 0; DestRow = TmpDestRow),
+    ( TmpDestCol < 0 -> DestCol = 0; DestCol = TmpDestCol).
 
 calcPieceMovement(Row, Col, 'SW', TotalMovement, DestRow, DestCol) :-
-    DestRow is Row + TotalMovement,
-    DestCol is Col.
+    TmpDestRow is Row + TotalMovement,
+    TmpDestCol is Col,
+    ( TmpDestRow < 0 -> DestRow = 0; DestRow = TmpDestRow),
+    ( TmpDestCol < 0 -> DestCol = 0; DestCol = TmpDestCol).
 
 calcPieceMovement(Row, Col, 'NE', TotalMovement, DestRow, DestCol) :-
-    DestRow is Row - TotalMovement,
-    DestCol is Col.
+    TmpDestRow is Row - TotalMovement,
+    TmpDestCol is Col,
+    ( TmpDestRow < 0 -> DestRow = 0; DestRow = TmpDestRow),
+    ( TmpDestCol < 0 -> DestCol = 0; DestCol = TmpDestCol).
 
 calcPieceMovement(Row, Col, 'SE', TotalMovement, DestRow, DestCol) :-
-    DestRow is Row + TotalMovement,
-    DestCol is Col + TotalMovement.
+    TmpDestRow is Row + TotalMovement,
+    TmpDestCol is Col + TotalMovement,
+    ( TmpDestRow < 0 -> DestRow = 0; DestRow = TmpDestRow),
+    ( TmpDestCol < 0 -> DestCol = 0; DestCol = TmpDestCol).
 
 checkAmpelDLU(Board,Col,Row,Ampel,FinalBoard) :-
     P2Col is Col - 1,
