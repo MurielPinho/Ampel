@@ -5,9 +5,12 @@
 :- consult('board.pl').
 
 play :-
+
+    % Main menu
+    mainMenu(Mode, Difficulty),
+
     % Initialize game by setting yellow pieces
     initialize(GameState, Player),
 
     % Start main game loop
-    Done = 0,
-    (gameLoop(GameState, Player); nl,nl,write('\t       Thanks for playing!'),nl,nl).
+    gameLoop(GameState, Player, Mode, Difficulty); nl,nl,write('\t       Thanks for playing!'),nl,nl.

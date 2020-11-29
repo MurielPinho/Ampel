@@ -53,6 +53,38 @@ printMainMenu :-
     write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
     write(BotBorder),nl,nl,nl.
 
+printDifficulty :-
+    border('t',TopBorder),
+    border('b',BotBorder),
+    border('v',VertBorder),
+    title(Title),nl,nl,
+    write(TopBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write(Title),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('            Choose Bot Difficulty:           '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                  1. Easy                    '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                  2. Hard                    '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write('  '),write(VertBorder),write('                                             '),write(VertBorder),nl,
+    write(BotBorder),nl,nl,nl.
+
 
 title(T) :- atom_codes(T,[0x0020,0x0020,0x2503,0x0020,0x0020,0x2588,0x2588,0x2588,0x2588,0x2588,0x2557,0x0020,0x2588,0x2588,0x2588,0x2557,0x0020,0x0020,0x0020,0x2588,0x2588,0x2588,0x2557,0x2588,0x2588,0x2588,0x2588,0x2588,0x2588,0x2557,0x0020,0x2588,0x2588,0x2588,0x2588,0x2588,0x2588,0x2588,0x2557,0x2588,0x2588,0x2557,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x2503,0x000a,
 0x0020,0x0020,0x2503,0x0020,0x2588,0x2588,0x2554,0x2550,0x2550,0x2588,0x2588,0x2557,0x2588,0x2588,0x2588,0x2588,0x2557,0x0020,0x2588,0x2588,0x2588,0x2588,0x2551,0x2588,0x2588,0x2554,0x2550,0x2550,0x2588,0x2588,0x2557,0x2588,0x2588,0x2554,0x2550,0x2550,0x2550,0x2550,0x255d,0x2588,0x2588,0x2551,0x0020,0x0020,0x0020,0x0020,0x0020,0x0020,0x2503,0x000a,

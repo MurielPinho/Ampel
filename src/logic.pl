@@ -1,3 +1,17 @@
+%%%%%%%%%%%%%
+% Main Menu %
+%%%%%%%%%%%%%
+
+/* Get user prefered gamemode and difficulty */
+mainMenu(Mode, Difficulty) :-
+    printMainMenu,
+    getUserMode(Mode),
+    format('Select the game mode: ~p', Mode),
+    (
+        (Mode =:= 2 ; Mode =:= 3) -> getUserDifficulty(Difficulty) ; Difficulty = 0
+    ).
+
+
 %%%%%%%%%%%%%%%%%%
 % Initialization %
 %%%%%%%%%%%%%%%%%%
@@ -49,10 +63,19 @@ placeYellowPiece(GameState, Player, NewGameState, N) :-
 % Main Game %
 %%%%%%%%%%%%%
 
-gameLoop(GameState, CurrentPlayer, Difficulty).
+% gameLoop(GameState, CurrentPlayer, Mode, Difficulty).
+
+/* Quit */
+% gameLoop(_, _, 0, _) :- clear,write('Exiting...').
+
+/*PvBot*/
+gameLoop(_, _, 2, _) :- clear,write('TBD').
+
+/*BotvBot*/
+gameLoop(_, _, 3, _) :- clear,write('TBD').
 
 /* PvP Main Loop */
-gameLoop(GameState, CurrentPlayer) :-
+gameLoop(GameState, CurrentPlayer, 1, Difficulty) :-
     % NextPlayer is mod(Player + 1, 2)
     NextPlayer is mod(CurrentPlayer + 1, 2),
 

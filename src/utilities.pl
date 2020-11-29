@@ -38,7 +38,17 @@ getValueBoard(GameBoard,Value, Row, Col) :-
         getValueBoard(GameBoard,Value, Row, Col)
     ).
 
+/* Get User mode */
+getUserMode(Mode) :-
+    write('  Gamemode '),
+    read(UserMode),
+    ((UserMode < 0 ; UserMode > 3) -> write('Invalid option. Try again.'),nl, getUserMode(Mode) ; Mode = UserMode).
 
+getUserDifficulty(Difficulty) :-
+    clear, printDifficulty,
+    write('Select Difficulty '),
+    read(UserDifficulty),
+    ((UserDifficulty < 1 ; UserDifficulty > 2) -> write('Invalid option. Try again.'),nl, getUserDifficulty(Difficulty) ; Difficulty = UserDifficulty).
 
 /* Replace a value in the position [Row,Col] at the board*/
 replaceInList([_H|T], 0, Value, [Value|T]).
