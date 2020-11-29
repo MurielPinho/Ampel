@@ -50,15 +50,16 @@ placeYellowPiece(GameState, Player, NewGameState, N) :-
 %%%%%%%%%%%%%
 /* Main Loop */
 gameLoop(GameState, Player) :-
-    % NextPlayer is mod(Player + 1, 2),
+    % NextPlayer is mod(Player + 1, 2)
     NextPlayer is mod(Player + 1, 2),
 
-    playerTurn(GameState, Player, NextPlayer),
-    gameLoop(GameState, NextPlayer).
+    (playerTurn(GameState, Player, NextPlayer, NextGameState); false),
+
+    gameLoop(NextGameState, NextPlayer).
 
 
 /* Player turn */
-playerTurn(GameState, Player, NextPlayer) :-
+playerTurn(GameState, Player, NextPlayer, NextGameState) :-
 
     % Get players info
     getPlayerInfo(GameState, Player, Color, _Pieces),
@@ -68,21 +69,20 @@ playerTurn(GameState, Player, NextPlayer) :-
     clear,
     displayGame(GameState, Player),
     movePlayerPiece(GameState, Player, Color, NextGameState1),
-    write('oi'),
-    (checkVictory(NextGameState1);write('venci ')),
-    write('tchau'),
+    !,
+    checkVictory(NextGameState1),
 
 
     % 2. Move one of your oponent's pieces
     clear,
     displayGame(NextGameState1, Player),
     movePlayerPiece(NextGameState1, Player, NextColor, NextGameState2),
+    !,
     checkVictory(NextGameState2),
-
     % 3. Place one of your piece
     clear,
     displayGame(NextGameState2, Player),
-    placePlayerPiece(NextGameState2, Player, NextGameState3).
+    placePlayerPiece(NextGameState2, Player, NextGameState).
 
 
 /* Place piece */
