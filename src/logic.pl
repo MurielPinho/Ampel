@@ -88,13 +88,17 @@ gameLoop(GameState, CurrentPlayer, 1, Difficulty) :-
 playerTurn(GameState, Player, NextPlayer, NextGameState) :-
 
     % Get players info
-    getPlayerInfo(GameState, Player, Color, _Pieces),
-    getPlayerInfo(GameState, NextPlayer, NextColor, _NextPieces),
+    getPlayerInfo(GameState, Player, Color, Pieces),
+    getPlayerInfo(GameState, NextPlayer, NextColor, NextPieces),
 
     % 1. Move one of your pieces
     clear,
     displayGame(GameState, Player),
-    movePlayerPiece(GameState, Player, Color, NextGameState1),
+    (
+        Pieces < 20 ->
+            movePlayerPiece(GameState, Player, Color, NextGameState1) ;
+            NextGameState1 = GameState, format('No ~p pieces on the board.', Color),nl
+    ),
     clear,
     displayGame(NextGameState1, Player),
     !,
@@ -102,15 +106,24 @@ playerTurn(GameState, Player, NextPlayer, NextGameState) :-
 
 
     % 2. Move one of your oponent's pieces
-    movePlayerPiece(NextGameState1, Player, NextColor, NextGameState2),
+    (
+        NextPieces < 20 ->
+            movePlayerPiece(NextGameState1, Player, NextColor, NextGameState2) ;
+            NextGameState2 = NextGameState1, format('No ~p pieces on the board.', NextColor),nl
+
+    ),
     clear,
     displayGame(NextGameState2, Player),
     !,
     \+ game_over(NextGameState2, Winner),
+
     % 3. Place one of your piece
     clear,
     displayGame(NextGameState2, Player),
-    placePlayerPiece(NextGameState2, Player, NextGameState).
+    (
+        Pieces > 0 -> placePlayerPiece(NextGameState2, Player, NextGameState) ;
+        NextGameState = NextGameState2, format('No ~p pieces to place.', Color),nl
+    ).
 
 
 /* Place piece */
@@ -149,7 +162,7 @@ movePlayerPiece(GameState, Player, Color, NextGameState) :-
         write('')
         ;
         movePlayerPiece(GameState, Player, Color, NextGameState).
-        
+
 
 /* Updated GameState after ampel*/
 updateAfterAmpel(GameState, Player, FinalState) :-
