@@ -1,16 +1,16 @@
 /*Declaration of a initial gamestate */
 initialState([[
 [empty,blank,blank,blank,blank,blank,blank,blank,blank,blank,blank],
-[red,red,blank,blank,blank,blank,blank,blank,blank,blank,blank],
+[empty,empty,blank,blank,blank,blank,blank,blank,blank,blank,blank],
 [empty,empty,empty,blank,blank,blank,blank,blank,blank,blank,blank],
 [empty,empty,empty,empty,blank,blank,blank,blank,blank,blank,blank],
-[empty,empty,empty,empty,red,blank,blank,blank,blank,blank,blank],
+[empty,empty,empty,empty,empty,blank,blank,blank,blank,blank,blank],
 [empty,empty,empty,empty,empty,empty,blank,blank,blank,blank,blank],
-[empty,empty,empty,empty,green,empty,empty,blank,blank,blank,blank],
-[empty,green,empty,empty,empty,empty,empty,empty,blank,blank,blank],
-[empty,empty,empty,empty,empty,empty,empty,empty,red,blank,blank],
+[empty,empty,empty,empty,empty,empty,empty,blank,blank,blank,blank],
+[empty,empty,empty,empty,empty,empty,empty,empty,blank,blank,blank],
+[empty,empty,empty,empty,empty,empty,empty,empty,empty,blank,blank],
 [empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,blank],
-[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty]],[2,2],[green,20],[red,20]]).
+[empty,empty,empty,empty,empty,empty,empty,empty,empty,empty,empty]],[0,0],[green,20],[red,20]]).
 
 /*Returns the symbol to be displayed on board */
 symbol(blank,S) :- atom_codes(S, [0x0020]).
