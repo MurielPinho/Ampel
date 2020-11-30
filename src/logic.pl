@@ -97,11 +97,11 @@ placeYellowPiece(GameState, Player, NewGameState) :-
 /* Bot adds a yellow piece to a valid spot */
 placeYellowBot(GameState,NewGameState) :-
     getGameBoard(GameState, GameBoard),
-    random(0,10,Row),   
+    random(0,10,Row),
     random(0,10,Col),
     write(Row), write(Col),
     !,
-    
+
         getValueFromMatrix(GameBoard,Row,Col,'empty') , verifyNotOnEdge(Row,Col,1) ->
             replaceInMatrix(GameBoard, Row, Col, 'yellow', UpdatedGameBoard),
             setGameBoard(GameState,UpdatedGameBoard,NewGameState)
@@ -200,7 +200,7 @@ botTurn(GameState, Player, NextPlayer,Difficulty, NextGameState) :-
     (
         Pieces < 20 ->
             choose_move(GameState,Player,Difficulty,Color,Move1,NextGameState1) ;
-            
+
             NextGameState1 = GameState, format('No ~p pieces on the board.', Color),nl
     ),
     sleep(1),
@@ -322,7 +322,7 @@ placeBotPiece(GameState,Player,Color, NewGameState) :-
         setPlayerPieces(GameState, Player, [Color, NewPieces], NextGameState),
         setGameBoard(NextGameState, UpdatedGameBoard, NewGameState)
         ;
-        placeBotPiece(GameState, Player,Color, NewGameState).   
+        placeBotPiece(GameState, Player,Color, NewGameState).
 
 
 
