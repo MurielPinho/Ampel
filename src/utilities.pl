@@ -38,6 +38,21 @@ getValueBoard(GameBoard,Value, Row, Col) :-
         getValueBoard(GameBoard,Value, Row, Col)
     ).
 
+value(GameState,N) :-
+    getGameBoard(GameState,GameBoard),
+    nPieces(GameBoard,0,0,'E',N0),
+    nPieces(GameBoard,1,0,'E',N1),
+    nPieces(GameBoard,2,0,'E',N2),
+    nPieces(GameBoard,3,0,'E',N3),
+    nPieces(GameBoard,4,0,'E',N4),
+    nPieces(GameBoard,5,0,'E',N5),
+    nPieces(GameBoard,6,0,'E',N6),
+    nPieces(GameBoard,7,0,'E',N7),
+    nPieces(GameBoard,8,0,'E',N8),
+    nPieces(GameBoard,9,0,'E',N9),
+    nPieces(GameBoard,10,0,'E',N10),
+    N is N0+N1+N2+N3+N4+N5+N6+N7+N8+N9+N10.
+
 /* Get User mode */
 getUserMode(Mode) :-
     write('  Gamemode '),

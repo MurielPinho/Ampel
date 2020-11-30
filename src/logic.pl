@@ -79,7 +79,13 @@ gameLoop(GameState, CurrentPlayer, 2, Difficulty) :-
     gameLoop(FinalGameState, CurrentPlayer, 2, Difficulty).
 
 /*BotvBot*/
-gameLoop(_, _, 3, _) :- clear,write('TBD').
+gameLoop(GameState, CurrentPlayer, 3, Difficulty) :-
+    NextPlayer is mod(CurrentPlayer + 1, 2),
+
+    botTurn(GameState, CurrentPlayer, NextPlayer, NextGameState), % Returns false when game is done
+    botTurn(NextGameState, NextPlayer, CurrentPlayer, FinalGameState), % Returns false when game is done
+
+    gameLoop(FinalGameState, CurrentPlayer, 3, Difficulty).
 
 /* PvP Main Loop */
 gameLoop(GameState, CurrentPlayer, 1, Difficulty) :-
@@ -139,7 +145,7 @@ botTurn(GameState, Player, NextPlayer, NextGameState) :-
     getPlayerInfo(GameState, NextPlayer, NextColor, NextPieces),
 
     % 1. Move one of your pieces
-    write('  1. Move one of your pieces'), nl,
+    write('     Move one of your pieces'), nl,
     clear,
     displayGame(GameState, Player),
     (
@@ -147,15 +153,13 @@ botTurn(GameState, Player, NextPlayer, NextGameState) :-
             moveBotPiece(GameState, Player, Color, NextGameState1) ;
             NextGameState1 = GameState, format('No ~p pieces on the board.', Color),nl
     ),
-    sleep(2),
-    clear,
-    displayGame(NextGameState1, Player),
+    sleep(1),
     !,
     \+ game_over(NextGameState1, Winner),
 
 
     % 2. Move one of your oponent's pieces
-    write('  2. Move one of your oponent\'s pieces'), nl,
+    write('     Move one of your oponent\'s pieces'), nl,
 
     (
         NextPieces < 20 ->
@@ -163,17 +167,15 @@ botTurn(GameState, Player, NextPlayer, NextGameState) :-
             NextGameState2 = NextGameState1, format('No ~p pieces on the board.', NextColor),nl
 
     ),
-    sleep(2),
+    sleep(1),
 
-    clear,
-    displayGame(NextGameState2, Player),
     !,
     \+ game_over(NextGameState2, Winner),
 
     % 3. Place one of your piece
-    write('  3. Place one of your piece'),nl,
+    write('     Place one of your piece'),nl,
     (
-        Pieces > 0 -> placeBotPiece(NextGameState2, Player, NextGameState) ;
+        Pieces > 0 -> placeBotPiece(NextGameState2, Player,Color, NextGameState) ;
         NextGameState = NextGameState2, format('No ~p pieces to place.', Color),nl
     ).
 
@@ -229,28 +231,22 @@ moveBotPiece(GameState, Player, Color, NextGameState) :-
         moveBotPiece(GameState, Player, Color, NextGameState).
 
 
-placeBotPiece(GameState,Player, NewGameState) :-
+placeBotPiece(GameState,Player,Color, NewGameState) :-
     random(0,10,TempRow),
     random(0,10,TempCol),
 
     % Get info from current state/player
-    getPlayerInfo(GameState, Player, Color, Pieces),
+    getPlayerInfo(GameState, Player, _Color, Pieces),
     getGameBoard(GameState, GameBoard),
-
-    format('[~p,~p]', [TempRow, TempCol]),nl,
-    getValueFromMatrix(GameBoard,TempRow,TempCol,Value),
-    format('VAl: ~p [~p,~p]', [Value, TempRow, TempCol]),nl,
+    write(TempRow), write(' '), write(TempCol),nl,
     !,
-    (
-        Value == 'empty' , \+ checkAmpel(UpdatedGameBoard, TempRow, TempCol, Ampel, _) ->
-             % Update GameState
-            replaceInMatrix(GameBoard, TempRow, TempCol, Color, UpdatedGameBoard),
-            NewPieces is Pieces - 1,
-            setPlayerPieces(GameState, Player, [Color, NewPieces], NextGameState),
-            setGameBoard(NextGameState, UpdatedGameBoard, NewGameState)
-            ;
-            placeBotPiece(GameState, Color, NewGameState)
-    ).
+        (getValueFromMatrix(GameBoard,TempRow,TempCol,'empty'), \+ checkAmpel(GameBoard, TempRow, TempCol, Ampel, _)) ->
+        replaceInMatrix(GameBoard, TempRow, TempCol, Color, UpdatedGameBoard),
+        NewPieces is Pieces - 1,
+        setPlayerPieces(GameState, Player, [Color, NewPieces], NextGameState),
+        setGameBoard(NextGameState, UpdatedGameBoard, NewGameState)
+        ;
+        placeBotPiece(GameState, Player,Color, NewGameState).
 
 placeYellowBot(GameBoard,NewGameBoard) :-
     random(0,10,Row),
