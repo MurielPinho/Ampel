@@ -38,7 +38,7 @@ getValueBoard(GameBoard,Value, Row, Col) :-
         getValueBoard(GameBoard,Value, Row, Col)
     ).
 
-value(GameState,N) :-
+value(GameState,Player,N) :-
     getGameBoard(GameState,GameBoard),
     nPieces(GameBoard,0,0,'E',N0),
     nPieces(GameBoard,1,0,'E',N1),
@@ -51,7 +51,7 @@ value(GameState,N) :-
     nPieces(GameBoard,8,0,'E',N8),
     nPieces(GameBoard,9,0,'E',N9),
     nPieces(GameBoard,10,0,'E',N10),
-    N is N0+N1+N2+N3+N4+N5+N6+N7+N8+N9+N10.
+    N is N0+N1+N2+N3+N4+N5+N6+N7+N8+N9+N10+Player.
 
 /* Get User mode */
 getUserMode(Mode) :-
@@ -197,7 +197,7 @@ placePiece(GameBoard, Color, NewGameBoard) :-
     write('  Select tile to place your piece:'), nl,
     selectTile(GameBoard, Row, Col),
     replaceInMatrix(GameBoard, Row, Col, Color, UpdatedGameBoard),
-    (checkAmpel(UpdatedGameBoard, Row, Col, Ampel, _) ->
+    (checkAmpel(UpdatedGameBoard, Row, Col, _Ampel, _) ->
     write('  Can\'t make an Ampel while placing piece. Try again.'),nl,
     placePiece(GameBoard, Color, NewGameBoard)
     ;
@@ -221,7 +221,7 @@ move(GameState,[CurrentRow, CurrentCol,Direction,Color,Player],NextGameState) :-
     replaceInMatrix(GameBoard, CurrentRow, CurrentCol, 'empty', NewGameBoard),
     replaceInMatrix(NewGameBoard, FinalRow, FinalCol, Color, UpdatedGameBoard),
     (
-    checkAmpel(UpdatedGameBoard,FinalCol, FinalRow, Ampel, AmpelBoard) ->
+    checkAmpel(UpdatedGameBoard,FinalCol, FinalRow, _Ampel, AmpelBoard) ->
         FinalGameBoard = AmpelBoard,
         updateAfterAmpel(GameState, Player, FinalGameState);
         FinalGameBoard = UpdatedGameBoard,
@@ -231,7 +231,7 @@ move(GameState,[CurrentRow, CurrentCol,Direction,Color,Player],NextGameState) :-
 
 
 /* Checks if move is possible */
-checkMovePossible(GameBoard, CurrentRow, _DestRow, 0, CurrentCol, _DestCol, 0, PossibleRow, PossibleCol) :-
+checkMovePossible(_GameBoard, CurrentRow, _DestRow, 0, CurrentCol, _DestCol, 0, PossibleRow, PossibleCol) :-
     PossibleRow = CurrentRow,
     PossibleCol = CurrentCol.
 

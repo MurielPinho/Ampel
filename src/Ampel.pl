@@ -12,7 +12,7 @@ play :-
     mainMenu(Mode, Difficulty),
 
     % Initialize game by setting yellow pieces
-    initialize(GameState, Player),
+    initialize(GameState, Player,Mode),
 
     % Start main game loop
     gameLoop(GameState, Player, Mode, Difficulty); nl,nl,write('\t       Thanks for playing!'),nl,nl.

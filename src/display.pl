@@ -1,5 +1,3 @@
-/* reconsult('p.pl'). play.
-*/
 
 
 /*Displays the game, including the score, board and pieces*/
