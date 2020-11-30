@@ -69,7 +69,14 @@ placeYellowPiece(GameState, Player, NewGameState, N) :-
 % gameLoop(_, _, 0, _) :- clear,write('Exiting...').
 
 /*PvBot*/
-gameLoop(_, _, 2, _) :- clear,write('TBD').
+gameLoop(GameState, CurrentPlayer, 2, Difficulty) :-
+    % NextPlayer is mod(Player + 1, 2)
+    NextPlayer is mod(CurrentPlayer + 1, 2),
+
+    playerTurn(GameState, CurrentPlayer, NextPlayer, NextGameState), % Returns false when game is done
+    botTurn(NextGameState, NextPlayer, CurrentPlayer, FinalGameState), % Returns false when game is done
+
+    gameLoop(FinalGameState, CurrentPlayer, 2, Difficulty).
 
 /*BotvBot*/
 gameLoop(_, _, 3, _) :- clear,write('TBD').
@@ -126,6 +133,50 @@ playerTurn(GameState, Player, NextPlayer, NextGameState) :-
     ).
 
 
+botTurn(GameState, Player, NextPlayer, NextGameState) :-
+    % Get players info
+    getPlayerInfo(GameState, Player, Color, Pieces),
+    getPlayerInfo(GameState, NextPlayer, NextColor, NextPieces),
+
+    % 1. Move one of your pieces
+    write('  1. Move one of your pieces'), nl,
+    clear,
+    displayGame(GameState, Player),
+    (
+        Pieces < 20 ->
+            moveBotPiece(GameState, Player, Color, NextGameState1) ;
+            NextGameState1 = GameState, format('No ~p pieces on the board.', Color),nl
+    ),
+    sleep(2),
+    clear,
+    displayGame(NextGameState1, Player),
+    !,
+    \+ game_over(NextGameState1, Winner),
+
+
+    % 2. Move one of your oponent's pieces
+    write('  2. Move one of your oponent\'s pieces'), nl,
+
+    (
+        NextPieces < 20 ->
+            moveBotPiece(NextGameState1, Player, NextColor, NextGameState2) ;
+            NextGameState2 = NextGameState1, format('No ~p pieces on the board.', NextColor),nl
+
+    ),
+    sleep(2),
+
+    clear,
+    displayGame(NextGameState2, Player),
+    !,
+    \+ game_over(NextGameState2, Winner),
+
+    % 3. Place one of your piece
+    write('  3. Place one of your piece'),nl,
+    (
+        Pieces > 0 -> placeBotPiece(NextGameState2, Player, NextGameState) ;
+        NextGameState = NextGameState2, format('No ~p pieces to place.', Color),nl
+    ).
+
 /* Place piece */
 placePlayerPiece(GameState, Player, NextGameState) :-
 
@@ -165,19 +216,55 @@ movePlayerPiece(GameState, Player, Color, NextGameState) :-
 
 moveBotPiece(GameState, Player, Color, NextGameState) :-
     getGameBoard(GameState, GameBoard),
-    
+
     random(0,10,Row),
     random(0,10,Col),
     random(1,6,TmpDir),
     getDirection(TmpDir,Direction),
     getValueFromMatrix(GameBoard,Row,Col,Value),
-    write(Value),nl,
     !,
     Value == Color , move(GameState, [Row,Col,Direction,Color,Player], NextGameState)->
         write('')
         ;
         moveBotPiece(GameState, Player, Color, NextGameState).
-        
+
+
+placeBotPiece(GameState,Player, NewGameState) :-
+    random(0,10,TempRow),
+    random(0,10,TempCol),
+
+    % Get info from current state/player
+    getPlayerInfo(GameState, Player, Color, Pieces),
+    getGameBoard(GameState, GameBoard),
+
+    format('[~p,~p]', [TempRow, TempCol]),nl,
+    getValueFromMatrix(GameBoard,TempRow,TempCol,Value),
+    format('VAl: ~p [~p,~p]', [Value, TempRow, TempCol]),nl,
+    !,
+    (
+        Value == 'empty' , \+ checkAmpel(UpdatedGameBoard, TempRow, TempCol, Ampel, _) ->
+             % Update GameState
+            replaceInMatrix(GameBoard, TempRow, TempCol, Color, UpdatedGameBoard),
+            NewPieces is Pieces - 1,
+            setPlayerPieces(GameState, Player, [Color, NewPieces], NextGameState),
+            setGameBoard(NextGameState, UpdatedGameBoard, NewGameState)
+            ;
+            placeBotPiece(GameState, Color, NewGameState)
+    ).
+
+placeYellowBot(GameBoard,NewGameBoard) :-
+    random(0,10,Row),
+    random(0,10,Col),
+    write(Row),write(' '),write(Col),nl,
+    getValueFromMatrix(GameBoard,Row,Col,Value),
+    write(Value),nl,
+    (
+        Value == 'empty' , verifyNotOnEdge(Row,Col,1) ->
+            replaceInMatrix(GameBoard, Row, Col, 'yellow', UpdatedGameBoard),
+            NewGameBoard = UpdatedGameBoard
+            ;
+            placeYellowBot(GameBoard, NewGameBoard)
+    ).
 
 /* Updated GameState after ampel*/
 updateAfterAmpel(GameState, Player, FinalState) :-

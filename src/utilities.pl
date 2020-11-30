@@ -189,36 +189,9 @@ placePiece(GameBoard, Color, NewGameBoard) :-
     NewGameBoard = UpdatedGameBoard
     ).
 
-placePieceBot(GameBoard,Color, NewGameBoard) :-
-    random(0,10,TempRow),
-    random(0,10,TempCol),
-    
-    getValueFromMatrix(GameBoard,TempRow,TempCol,Value),
-    (
-        Value == 'empty' , \+ checkAmpel(UpdatedGameBoard, TempRow, TempCol, Ampel, _) ->
-            replaceInMatrix(GameBoard, TempRow, TempCol, Color, UpdatedGameBoard),
-            NewGameBoard = UpdatedGameBoard
-            ;
-            placePieceBot(GameBoard, Color, NewGameBoard)      
-    ).
-
-placeYellowBot(GameBoard,NewGameBoard) :-
-    random(0,10,Row),
-    random(0,10,Col),
-    write(Row),write(' '),write(Col),nl,
-    getValueFromMatrix(GameBoard,Row,Col,Value),
-    write(Value),nl,
-    (
-        Value == 'empty' , verifyNotOnEdge(Row,Col,1) ->
-            replaceInMatrix(GameBoard, Row, Col, 'yellow', UpdatedGameBoard),
-            NewGameBoard = UpdatedGameBoard
-            ;
-            placeYellowBot(GameBoard, NewGameBoard)      
-    ).
-
 
 move(GameState,[CurrentRow, CurrentCol,Direction,Color,Player],NextGameState) :-
-  
+
     getGameBoard(GameState,GameBoard),
     nPieces(GameBoard, CurrentRow, CurrentCol, Direction, NPieces),
     calcPieceMovement(CurrentRow, CurrentCol, Direction, NPieces, DestRow, DestCol),
@@ -228,7 +201,7 @@ move(GameState,[CurrentRow, CurrentCol,Direction,Color,Player],NextGameState) :-
     NextRow is CurrentRow + RowInc,
     NextCol is CurrentCol + ColInc,
     getValueFromMatrix(GameBoard, NextRow, NextCol, Value),
-    Value == 'empty' ,       
+    Value == 'empty' ,
     checkMovePossible(GameBoard, CurrentRow, DestRow, RowInc, CurrentCol, DestCol, ColInc, FinalRow, FinalCol),
     replaceInMatrix(GameBoard, CurrentRow, CurrentCol, 'empty', NewGameBoard),
     replaceInMatrix(NewGameBoard, FinalRow, FinalCol, Color, UpdatedGameBoard),
