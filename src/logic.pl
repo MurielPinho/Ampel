@@ -163,6 +163,21 @@ movePlayerPiece(GameState, Player, Color, NextGameState) :-
         ;
         movePlayerPiece(GameState, Player, Color, NextGameState).
 
+moveBotPiece(GameState, Player, Color, NextGameState) :-
+    getGameBoard(GameState, GameBoard),
+    
+    random(0,10,Row),
+    random(0,10,Col),
+    random(1,6,TmpDir),
+    getDirection(TmpDir,Direction),
+    getValueFromMatrix(GameBoard,Row,Col,Value),
+    write(Value),nl,
+    !,
+    Value == Color , move(GameState, [Row,Col,Direction,Color,Player], NextGameState)->
+        write('')
+        ;
+        moveBotPiece(GameState, Player, Color, NextGameState).
+        
 
 /* Updated GameState after ampel*/
 updateAfterAmpel(GameState, Player, FinalState) :-

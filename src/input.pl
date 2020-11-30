@@ -212,6 +212,7 @@ selectPiece(GameBoard, Color, ValidRow, ValidCol) :-
             selectPiece(GameBoard, Color, ValidRow, ValidCol)
     ).
 
+
 /* Select direction for piece to move */
 selectMoveOption(Direction) :-
     write('  1) NW    2) NE'),nl,

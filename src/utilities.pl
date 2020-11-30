@@ -203,14 +203,14 @@ placePieceBot(GameBoard,Color, NewGameBoard) :-
     ).
 
 placeYellowBot(GameBoard,NewGameBoard) :-
-    random(0,10,TempRow),
-    random(0,10,TempCol),
-    write(TempRow),write(' '),write(TempCol),nl,
-    getValueFromMatrix(GameBoard,TempRow,TempCol,Value),
+    random(0,10,Row),
+    random(0,10,Col),
+    write(Row),write(' '),write(Col),nl,
+    getValueFromMatrix(GameBoard,Row,Col,Value),
     write(Value),nl,
     (
-        Value == 'empty' , verifyNotOnEdge(TempRow,TempCol,1) ->
-            replaceInMatrix(GameBoard, TempRow, TempCol, 'yellow', UpdatedGameBoard),
+        Value == 'empty' , verifyNotOnEdge(Row,Col,1) ->
+            replaceInMatrix(GameBoard, Row, Col, 'yellow', UpdatedGameBoard),
             NewGameBoard = UpdatedGameBoard
             ;
             placeYellowBot(GameBoard, NewGameBoard)      
