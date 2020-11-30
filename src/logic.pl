@@ -94,7 +94,7 @@ playerTurn(GameState, Player, NextPlayer, NextGameState) :-
     % 1. Move one of your pieces
     clear,
     displayGame(GameState, Player),
-    movePlayerPiece(GameState, Player, Color, NextGameState1),
+    moveBotPiece(GameState, Player, Color, NextGameState1),
     clear,
     displayGame(NextGameState1, Player),
     !,
@@ -102,7 +102,7 @@ playerTurn(GameState, Player, NextPlayer, NextGameState) :-
 
 
     % 2. Move one of your oponent's pieces
-    movePlayerPiece(NextGameState1, Player, NextColor, NextGameState2),
+    moveBotPiece(NextGameState1, Player, NextColor, NextGameState2),
     clear,
     displayGame(NextGameState2, Player),
     !,
@@ -149,6 +149,21 @@ movePlayerPiece(GameState, Player, Color, NextGameState) :-
         write('')
         ;
         movePlayerPiece(GameState, Player, Color, NextGameState).
+
+moveBotPiece(GameState, Player, Color, NextGameState) :-
+    getGameBoard(GameState, GameBoard),
+    
+    random(0,10,Row),
+    random(0,10,Col),
+    random(1,6,TmpDir),
+    getDirection(TmpDir,Direction),
+    getValueFromMatrix(GameBoard,Row,Col,Value),
+    write(Value),nl,
+    !,
+    Value == Color , move(GameState, [Row,Col,Direction,Color,Player], NextGameState)->
+        write('')
+        ;
+        moveBotPiece(GameState, Player, Color, NextGameState).
         
 
 /* Updated GameState after ampel*/
