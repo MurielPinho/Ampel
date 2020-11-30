@@ -77,6 +77,7 @@ placeYellowPiece(GameState, _Player, NewGameState, 0) :-
     clear,
     NewGameState = GameState.
 
+/* Loop to add N yellow pieces to the board */
 placeYellowPiece(GameState, Player, NewGameState) :-
     clear,
 
@@ -93,6 +94,7 @@ placeYellowPiece(GameState, Player, NewGameState) :-
     % Update GameState
     setGameBoard(GameState, NewGameBoard, NewGameState).
 
+/* Bot adds a yellow piece to a valid spot */
 placeYellowBot(GameState,NewGameState) :-
     getGameBoard(GameState, GameBoard),
     random(0,10,Row),   
@@ -145,7 +147,7 @@ gameLoop(GameState, CurrentPlayer, 3, Difficulty) :-
 
 
 
-/* Player turn */
+/* Player turn sequence */
 playerTurn(GameState, Player, NextPlayer, NextGameState) :-
 
     % Get players info
@@ -186,7 +188,7 @@ playerTurn(GameState, Player, NextPlayer, NextGameState) :-
         NextGameState = NextGameState2, format('No ~p pieces to place.', Color),nl
     ).
 
-
+/* Bot turn sequence */
 botTurn(GameState, Player, NextPlayer,Difficulty, NextGameState) :-
     % Get players info
     getPlayerInfo(GameState, Player, Color, Pieces),
@@ -226,7 +228,7 @@ botTurn(GameState, Player, NextPlayer,Difficulty, NextGameState) :-
         NextGameState = NextGameState2, format('No ~p pieces to place.', Color),nl
     ).
 
-/* Place piece */
+/* Player places a piece */
 placePlayerPiece(GameState, Player, NextGameState) :-
 
     % Get info from current state/player
@@ -242,7 +244,7 @@ placePlayerPiece(GameState, Player, NextGameState) :-
     setGameBoard(NextGameState1, NewGameBoard, NextGameState).
 
 
-/* Move piece */
+/* Player moves piece */
 movePlayerPiece(GameState, Player, Color, NextGameState) :-
 
     % Get info from current state/player
@@ -264,15 +266,17 @@ movePlayerPiece(GameState, Player, Color, NextGameState) :-
         movePlayerPiece(GameState, Player, Color, NextGameState).
 
 
-
+/* Bot chooses move on easy difficulty */
 choose_move(GameState, Player, 1, Color, Move, NextGameState) :-
     moveBotPieceRandom(GameState, Player, Color, NextGameState,Move).
 
+/* Bot chooses move on hard difficulty */
 choose_move(GameState, Player, 2, Color, Move, NextGameState) :-
     moveBotPieceValid(GameState, Player, Color, NextGameState,Move).
 
 choose_move(GameState, Player, _, Color, Move, NextGameState).
 
+/* Bot makes a valid move on a piece */
 moveBotPieceValid(GameState, Player, Color, NextGameState,Move) :-
     getGameBoard(GameState, GameBoard),
 
@@ -287,6 +291,7 @@ moveBotPieceValid(GameState, Player, Color, NextGameState,Move) :-
         ;
         moveBotPieceValid(GameState, Player, Color, NextGameState, Move).
 
+/* Bot makes a random move on a piece */
 moveBotPieceRandom(GameState, Player, Color, NextGameState, Move) :-
     getGameBoard(GameState, GameBoard),
 
@@ -302,7 +307,7 @@ moveBotPieceRandom(GameState, Player, Color, NextGameState, Move) :-
         ;
         NextGameState = GameState.
 
-
+/* Bot places a piece on a valid spot*/
 placeBotPiece(GameState,Player,Color, NewGameState) :-
     random(0,10,TempRow),
     random(0,10,TempCol),
@@ -321,7 +326,7 @@ placeBotPiece(GameState,Player,Color, NewGameState) :-
 
 
 
-/* Updated GameState after ampel*/
+/* Updates GameState after ampel*/
 updateAfterAmpel(GameState, Player, FinalState) :-
     getScore(GameState, [ScoreP1 | ScoreP2]),
     (
@@ -339,6 +344,7 @@ updateAfterAmpel(GameState, Player, FinalState) :-
     setPlayerPieces(NewStateP1, 1, [ColorP2,NewPiecesP2], FinalState).
 
 
+/* Checks for ampels starting from Row and Col*/
 checkAmpel(Board,Row,Col,Ampel,FinalBoard) :-
     (
         (checkAmpelDLU(Board,Col,Row,Ampel,FinalBoard),Ampel =:= 1);
@@ -350,6 +356,7 @@ checkAmpel(Board,Row,Col,Ampel,FinalBoard) :-
     )
     .
 
+/* Checks for Game over, meaning a player has made 3 or more ampels*/
 game_over(GameState, Winner) :-
     getScore(GameState,[ScoreP1, ScoreP2]),
     (ScoreP1 >= 3, Winner = 1, nl,nl,format('\t\tWinner: Player ~p', Winner) ;

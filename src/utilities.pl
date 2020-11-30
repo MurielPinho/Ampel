@@ -2,9 +2,11 @@
 getGameBoard([H | _T], GameBoard) :-
     GameBoard = H.
 
+/* Return the scores from gamestate*/
 getScore([_GameBoard, Score, _Player1, _Player2],GameScore) :-
     GameScore = Score.
 
+/* Sets the scores for gamestate*/
 setScore(GameState, NewScore, NewState) :-
     replaceInList(GameState, 1, NewScore, NewState).
 
@@ -23,21 +25,7 @@ setPlayerPieces(GameState, Player, NewPieces, NewState) :-
 /* Set the gameboard of the current state */
 setGameBoard([_H | T], GameBoard, [GameBoard|T]).
 
-value(GameState,N) :-
-    getGameBoard(GameState,GameBoard),
-    nPieces(GameBoard,0,0,'E',N0),write(N0),nl,
-    nPieces(GameBoard,1,0,'E',N1),write(N1),nl,
-    nPieces(GameBoard,2,0,'E',N2),write(N2),nl,
-    nPieces(GameBoard,3,0,'E',N3),write(N3),nl,
-    nPieces(GameBoard,4,0,'E',N4),write(N4),nl,
-    nPieces(GameBoard,5,0,'E',N5),write(N5),nl,
-    nPieces(GameBoard,6,0,'E',N6),write(N6),nl,
-    nPieces(GameBoard,7,0,'E',N7),write(N7),nl,
-    nPieces(GameBoard,8,0,'E',N8),write(N8),nl,
-    nPieces(GameBoard,9,0,'E',N9),write(N9),nl,
-    nPieces(GameBoard,10,0,'E',N10),write(N10),nl,
-    N is N0+N1+N2+N3+N4+N5+N6+N7+N8+N9+N10,
-    write(N),nl.
+
 
 /* Get current value on postion [Row, Col] at the board */
 getValueBoard(GameBoard,Value, Row, Col) :-
@@ -54,7 +42,8 @@ getValueBoard(GameBoard,Value, Row, Col) :-
         getValueBoard(GameBoard,Value, Row, Col)
     ).
 
-value(GameState,Player,N) :-
+/* Calculates the value for board */
+value(GameState,Player,NPieces) :-
     getGameBoard(GameState,GameBoard),
     nPieces(GameBoard,0,0,'E',N0),
     nPieces(GameBoard,1,0,'E',N1),
@@ -67,7 +56,7 @@ value(GameState,Player,N) :-
     nPieces(GameBoard,8,0,'E',N8),
     nPieces(GameBoard,9,0,'E',N9),
     nPieces(GameBoard,10,0,'E',N10),
-    N is N0+N1+N2+N3+N4+N5+N6+N7+N8+N9+N10+Player.
+    NPieces is N0+N1+N2+N3+N4+N5+N6+N7+N8+N9+N10+Player.
 
 /* Get User mode */
 getUserMode(Mode) :-
@@ -75,6 +64,7 @@ getUserMode(Mode) :-
     read(UserMode),
     ((UserMode < 0 ; UserMode > 3) -> write('Invalid option. Try again.'),nl, getUserMode(Mode) ; Mode = UserMode).
 
+/* Get User difficulty */
 getUserDifficulty(Difficulty) :-
     clear, printDifficulty,
     write('Select Difficulty '),
@@ -125,6 +115,7 @@ convertPyramid(TempRow,TempCol,Row,Col) :-
     Temp2 is TempCol -  Temp1, nl,
     Col is Temp2 // 2.
 
+/* Calculates the number of pieces in a row on the board */
 piecesHor(GameBoard,Row,Col,NPieces) :-
     Row =< 10, Row >= 0,
     Col =< 10, Col >= 0,
@@ -140,7 +131,7 @@ piecesHor(GameBoard,Row,Col,NPieces) :-
 
 piecesHor(_,_,_,0).
 
-
+/* Calculates the number of pieces in a right diagonal on the board */
 piecesDiagR(GameBoard,Row,Col,NPieces) :-
     Row =< 10,
     Col =< 10,
@@ -157,6 +148,7 @@ piecesDiagR(GameBoard,Row,Col,NPieces) :-
 
 piecesDiagR(_,_,_,0).
 
+/* Calculates the number of pieces in a left diagonal on the board */
 piecesDiagL(GameBoard,Row,Col,NPieces) :-
     Row =< 10,
     Col =< 10,
@@ -174,7 +166,7 @@ piecesDiagL(GameBoard,Row,Col,NPieces) :-
 piecesDiagL(_,_,_,0).
 
 
-
+/* Calculates the number of pieces in the possible directions */
 nPieces(GameBoard,_Row,Col,'NE',NPieces) :-
     NewRow is 0,
     NewCol is Col,
@@ -208,7 +200,7 @@ nPieces(GameBoard,Row,_Col,'W',NPieces) :-
 nPieces(_GameBoard,_Row,_Col,_,NPieces) :-
     NPieces = 0.
 
-% Place piece
+/* Places a piece on the board, validating the user's input*/
 placePiece(GameBoard, Color, NewGameBoard) :-
     write('  Select tile to place your piece:'), nl,
     selectTile(GameBoard, Row, Col),
@@ -220,7 +212,7 @@ placePiece(GameBoard, Color, NewGameBoard) :-
     NewGameBoard = UpdatedGameBoard
     ).
 
-
+/* Moves a pieces based on the Move received*/
 move(GameState,[CurrentRow, CurrentCol,Direction,Color,Player],NextGameState) :-
 
     getGameBoard(GameState,GameBoard),
@@ -246,11 +238,13 @@ move(GameState,[CurrentRow, CurrentCol,Direction,Color,Player],NextGameState) :-
     setGameBoard(FinalGameState, FinalGameBoard, NextGameState).
 
 
-/* Checks if move is possible */
+/* Checks for possible moves */
 checkMovePossible(_GameBoard, CurrentRow, _DestRow, 0, CurrentCol, _DestCol, 0, PossibleRow, PossibleCol) :-
     PossibleRow = CurrentRow,
     PossibleCol = CurrentCol.
 
+
+/* Checks for possible moves */
 checkMovePossible(GameBoard, CurrentRow, DestRow, RowInc, CurrentCol, DestCol, ColInc, PossibleRow, PossibleCol) :-
     NextRow is CurrentRow + RowInc, % Start at next position
     NextCol is CurrentCol + ColInc, % Start at next position
@@ -265,7 +259,7 @@ checkMovePossible(GameBoard, CurrentRow, DestRow, RowInc, CurrentCol, DestCol, C
     ).
 
 
-/* Get new coords for piece movement */
+/* Get new coords for piece movement based on the destiny direction */
 calcPieceMovement(Row, Col, 'E', TotalMovement, DestRow, DestCol) :-
     TmpDestRow is Row,
     TmpDestCol is Col + TotalMovement,
@@ -302,6 +296,7 @@ calcPieceMovement(Row, Col, 'SE', TotalMovement, DestRow, DestCol) :-
     ( TmpDestRow < 0 -> DestRow = 0; DestRow = TmpDestRow),
     ( TmpDestCol < 0 -> DestCol = 0; DestCol = TmpDestCol).
 
+/* Check for ampel in the left upper diagonal of the board*/
 checkAmpelDLU(Board,Col,Row,Ampel,FinalBoard) :-
     P2Col is Col - 1,
     P2Row is Row - 1,
@@ -318,6 +313,7 @@ checkAmpelDLU(Board,Col,Row,Ampel,FinalBoard) :-
         Ampel = 0.
 
 
+/* Check for ampel in the left down diagonal of the board*/
 checkAmpelDLD(Board,Col,Row,Ampel,FinalBoard) :-
     P2Col is Col ,
     P2Row is Row + 1,
@@ -334,6 +330,7 @@ checkAmpelDLD(Board,Col,Row,Ampel,FinalBoard) :-
         Ampel = 0.
 
 
+/* Check for ampel in the right upper diagonal of the board*/
 checkAmpelDRU(Board,Col,Row,Ampel,FinalBoard) :-
     P2Col is Col ,
     P2Row is Row - 1,
@@ -350,6 +347,7 @@ checkAmpelDRU(Board,Col,Row,Ampel,FinalBoard) :-
         Ampel = 0.
 
 
+/* Check for ampel in the right down diagonal of the board*/
 checkAmpelDRD(Board,Col,Row,Value,FinalBoard) :-
     P2Col is Col + 1,
     P2Row is Row + 1,
@@ -366,6 +364,7 @@ checkAmpelDRD(Board,Col,Row,Value,FinalBoard) :-
         Value = 0.
 
 
+/* Check for ampel in the right horizontal of the board*/
 checkAmpelHR(Board,Col,Row,Ampel,FinalBoard) :-
     P2Col is Col + 1,
     P2Row is Row ,
@@ -382,6 +381,7 @@ checkAmpelHR(Board,Col,Row,Ampel,FinalBoard) :-
         Ampel = 0.
 
 
+/* Check for ampel in the left horizontal of the board*/
 checkAmpelHL(Board,Col,Row,Ampel,FinalBoard) :-
     P2Col is Col - 1,
     P2Row is Row ,

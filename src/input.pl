@@ -1,15 +1,19 @@
+/* Manages input for a row */
 manageRow(NewRow) :-
     readRow(Row),
     validateRow(Row, NewRow).
 
+/* Manages input for a column */
 manageColumn(NewColumn) :-
     readColumn(Column),
     validateColumn(Column, NewColumn).
 
+/* Reads input for a row */
 readRow(Row) :-
     write('  > Row '),
     read(Row).
 
+/* Reads input for a column */
 readColumn(Column) :-
     write('  > Column '),
     read(Column).
@@ -227,6 +231,7 @@ selectMoveOption(Direction) :-
             getDirection(UserOption, Direction)
     ).
 
+/* Translates direction for piece to move based on input */
 getDirection(1, Direction) :-
     Direction = 'NW'.
 getDirection(2, Direction) :-
